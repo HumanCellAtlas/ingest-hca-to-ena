@@ -1,0 +1,23 @@
+service: ${self:custom.ingest-hca-to-ena.name}
+
+frameworkVersion: ">=1.0.0 <2.0.0"
+
+plugins:
+  - serverless-python-requirements
+
+custom:
+  ingest-hca-to-ena: ${file(ingest-hca-to-ena.yml)}
+
+provider:
+  name: aws
+  region: us-east-1
+  timeout: 300
+
+functions:
+  convert:
+    runtime: python3.6
+    handler: handler.convert
+    events:
+      - http:
+          path: convert
+          method: post
