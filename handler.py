@@ -9,11 +9,11 @@ import zipfile
 
 def zipdir(job_id):
     path = "/tmp/" + job_id
+    print(path)
     zip_file_path = path + '.zip'
     zf = zipfile.ZipFile(zip_file_path, 'w', zipfile.ZIP_DEFLATED)
-    for root, dirs, files in os.walk(path):
-        for file in files:
-            zf.write(os.path.join(root, file))
+    for file in os.listdir(path):
+        zf.write(path + "/" + file, file)
     zf.close()
     return zip_file_path
 
@@ -32,7 +32,7 @@ def handle_convert(event, context):
         "statusCode": 200,
         "headers": {
             "Content-Type": "application/zip",
-            "Content-Disposition": "inline; filename=" + job_id + ".zip"
+            "Content-Disposition": "attachment; filename=" + job_id + ".zip"
         },
         "body": str(encoded_string.decode("utf-8")),
         "isBase64Encoded": True
