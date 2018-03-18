@@ -34,6 +34,7 @@ class TestHandler(unittest.TestCase):
             validate_output("ENA.project.xsd", "project.xml")
             validate_output("SRA.sample.xsd", "sample.xml")
             validate_output("SRA.experiment.xsd", "experiment.xml")
+            validate_output("SRA.run.xsd", "run.xml")
 
 
 if __name__ == '__main__':

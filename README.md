@@ -1,3 +1,10 @@
+# Ingest HCA to ENA
+
+Converts HCA pre-ingest JSON to ENA XML
+
+## Test
+Tests take an example output, generate XML files and validate them against ENA schemas.
+
 ## Run Locally
 
 ```
