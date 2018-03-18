@@ -1,14 +1,19 @@
 import json
 
-def convert(event, context):
-    message = _process_event(event)
+def handle(event, context):
+    submission = _process_event(event)
     response = {
         "statusCode": 200,
         "body": {}
     }
     return response
-
+    
+def convert(dataset_json):
+    for element in dataset_json:
+        if 'schema_type' in element:
+            print(element['schema_type'])
+    
 def _process_event(event):
-    message = json.loads(event["body"])
-    return message
+    submission = json.loads(event["body"][0])
+    return submission
     
