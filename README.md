@@ -14,9 +14,11 @@ serverless invoke local --function convert --path ./examples/metadata_spleen_v5_
 
 ```
 curl -X POST \
-  https://79su9oe0kj.execute-api.us-east-1.amazonaws.com/dev/convert \
-  -H 'content-type: application/json' \
- -d '[ {
+  https://n8b51jauvh.execute-api.us-east-1.amazonaws.com/dev/convert \
+  -H 'Accept: application/zip' \
+  -H 'Cache-Control: no-cache' \
+  -H 'Content-Type: application/json' \
+  -d '[ {
   "schema_type" : "project",
   "content" : [ {
     "describedBy" : "https://schema.humancellatlas.org/type/project/5.0.1/project",
