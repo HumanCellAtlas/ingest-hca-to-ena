@@ -21,3 +21,4 @@ functions:
       - http:
           path: convert
           method: post
+          cors: true
