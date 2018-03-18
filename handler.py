@@ -12,35 +12,26 @@ def handle(event, context):
     return response
 
 
-# <EXPERIMENT_SET>
-#    <EXPERIMENT alias="TODO: process_id (if this is unique for a given BAM)">
-#        <TITLE>TODO: do not provide (is optional) or possibly process_name</TITLE>
-#        <STUDY_REF refname="TODO: study alias"/>
-#        <DESIGN>
-#            <DESIGN_DESCRIPTION/>
-#            <SAMPLE_DESCRIPTOR  refname="TODO: sample alias"/>
-#            <LIBRARY_DESCRIPTOR>
-#                <LIBRARY_STRATEGY>TODO: discuss (e.g. WGS)</LIBRARY_STRATEGY>
-#                <LIBRARY_SOURCE>GENOMIC SINGLE CELL</LIBRARY_SOURCE>
-#                <LIBRARY_SELECTION>TODO: discuss</LIBRARY_SELECTION>
-#                <LIBRARY_LAYOUT>
-#                    <PAIRED NOMINAL_LENGTH="TODO: did not see in JSON" NOMINAL_SDEV="TODO: did not see in JSON"/>
-#                </LIBRARY_LAYOUT>
-#            </LIBRARY_DESCRIPTOR>
-#        </DESIGN>
-#        <PLATFORM>
-#            <ILLUMINA>
-#                <INSTRUMENT_MODEL>TODO: instrument_manufacturer_model</INSTRUMENT_MODEL>
-#            </ILLUMINA>
-#        </PLATFORM>
-#    </EXPERIMENT>
-# </EXPERIMENT_SET>
-
 _study_ref = None
 
 
+def _add_run_xml(run_set_element, file_json):
+    run_element = ET.SubElement(run_set_element, 'RUN')
+    experiment_ref_element = ET.SubElement(run_element, 'EXPERIMENT_REF')
+    data_block_element = ET.SubElement(run_element, 'DATA_BLOCK')
+    files_element = ET.SubElement(data_block_element, 'FILES')
+    file_element = ET.SubElement(files_element, 'FILE')
+    file_element.set('filetype', 'bam')
+    file_element.set('checksum_method', 'MD5')
+    file_element.set('checksum', '')
+    if 'file_core' in file_json:
+        file_core = file_json['file_core']
+        if 'file_name' in file_core:
+            run_element.set('alias', file_core['file_name'])
+            file_element.set('filename', file_core['file_name'])
+
+
 def _add_experiment_xml(experiment_set_element, process_json):
-    print(process_json)
     experiment_element = ET.SubElement(experiment_set_element, 'EXPERIMENT')
     title_element = ET.SubElement(experiment_element, 'TITLE')
     study_ref_element = ET.SubElement(experiment_element, 'STUDY_REF')
@@ -68,7 +59,6 @@ def _add_experiment_xml(experiment_set_element, process_json):
             title_element.text = process_core['process_name']
         if _study_ref:
             study_ref_element.set('refname', _study_ref)
-
 
 
 def _add_sample_xml(sample_set_element, biomaterial_json):
@@ -131,6 +121,14 @@ def _create_experiment_set_xml(processes_json):
     return experiment_set_xml
 
 
+def _create_run_set_xml(files_json):
+    run_set_element = ET.Element('RUN_SET')
+    for file_json in files_json:
+        _add_run_xml(run_set_element, file_json)
+    run_set_xml = ET.tostring(run_set_element)
+    return run_set_xml
+
+
 def convert(dataset_json):
     for element in dataset_json:
         if 'schema_type' in element:
@@ -147,6 +145,10 @@ def convert(dataset_json):
                 if 'content' in element:
                     experiment_set_xml = _create_experiment_set_xml(element['content'])
                     _output_xml("experiment", experiment_set_xml)
+            if schema_type == 'file':
+                if 'content' in element:
+                    run_set_xml = _create_run_set_xml(element['content'])
+                    _output_xml("run", run_set_xml)
 
 
 def _process_event(event):
