@@ -1,5 +1,6 @@
 import json
 import xml.etree.ElementTree as ET
+from xml.dom import minidom
 
 
 def handle(event, context):
@@ -9,17 +10,6 @@ def handle(event, context):
         "body": {}
     }
     return response
-
-# <PROJECT_SET>
-# <PROJECT alias="TODO: project_shortname">
-# <NAME>TODO: project_shortname</NAME>
-# <TITLE>TODO: project_title</TITLE>
-# <DESCRIPTION>TODO: project_description</DESCRIPTION>
-# <SUBMISSION_PROJECT>
-# <SEQUENCING_PROJECT/>
-# </SUBMISSION_PROJECT>
-# </PROJECT>
-# </PROJECT_SET>
 
 
 def add_project_xml(project_set_element, project_json):
@@ -47,8 +37,11 @@ def create_project_set_xml(projects_json):
     return project_set_xml
 
 
-def output_xml(type, xml):
-    print(type + ":\n" + str(xml))
+def output_xml(xml_type, xml_string):
+    print(xml_type + ":\n" + str(xml_string))
+    xml_str = minidom.parseString(xml_string).toprettyxml(indent="   ")
+    with open(xml_type + ".xml", "w") as f:
+        f.write(xml_str)
 
 
 def convert(dataset_json):
