@@ -1,17 +1,19 @@
 # Ingest HCA to ENA
 
-Converts HCA pre-ingest JSON to ENA XML
+Converts HCA pre-ingest JSON to ENA XML and packages it as a zip.
 
 ## Test
-Tests take an example output, generate XML files and validate them against ENA schemas.
+Tests take an example output, generates ENA XML files and validates each against ENA schemas. The XML files are then packaged into a zip file.
 
-## Run Locally
-
+## Run Lambda Locally
 ```
 serverless invoke local --function convert --path ./examples/metadata_spleen_v5_20180313_userFriendlyHeaders.json
 ```
-## Example cURL
 
+## Deployment
+The code is also deployed as a AWS Lambda with a HTTP endpoint. 
+
+## Example cURL
 ```
 curl -X POST \
   https://n8b51jauvh.execute-api.us-east-1.amazonaws.com/dev/convert \
