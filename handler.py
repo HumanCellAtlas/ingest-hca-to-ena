@@ -1,4 +1,5 @@
 import json
+import os
 import xml.etree.ElementTree as ET
 from xml.dom import minidom
 
@@ -129,26 +130,26 @@ def _create_run_set_xml(files_json):
     return run_set_xml
 
 
-def convert(dataset_json):
+def convert(dataset_json, job_id):
     for element in dataset_json:
         if 'schema_type' in element:
             schema_type = element['schema_type']
             if schema_type == 'project':
                 if 'content' in element:
                     project_set_xml = _create_project_set_xml(element['content'])
-                    _output_xml("project", project_set_xml)
+                    _output_xml("project", project_set_xml, job_id)
             if schema_type == 'biomaterial':
                 if 'content' in element:
                     sample_set_xml = _create_sample_set_xml(element['content'])
-                    _output_xml("sample", sample_set_xml)
+                    _output_xml("sample", sample_set_xml, job_id)
             if schema_type == 'process':
                 if 'content' in element:
                     experiment_set_xml = _create_experiment_set_xml(element['content'])
-                    _output_xml("experiment", experiment_set_xml)
+                    _output_xml("experiment", experiment_set_xml, job_id)
             if schema_type == 'file':
                 if 'content' in element:
                     run_set_xml = _create_run_set_xml(element['content'])
-                    _output_xml("run", run_set_xml)
+                    _output_xml("run", run_set_xml, job_id)
 
 
 def _process_event(event):
@@ -156,7 +157,12 @@ def _process_event(event):
     return submission
 
 
-def _output_xml(xml_type, xml_string):
+def _output_xml(xml_type, xml_string, job_id):
+    output_dir = "/tmp/" + job_id
+    try:
+        os.stat(output_dir)
+    except:
+        os.mkdir(output_dir)
     xml_str = minidom.parseString(xml_string).toprettyxml(indent="   ")
-    with open("output/" + xml_type + ".xml", "w") as f:
+    with open(output_dir + "/" + xml_type + ".xml", "w") as f:
         f.write(xml_str)

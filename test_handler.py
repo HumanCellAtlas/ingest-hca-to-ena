@@ -1,5 +1,7 @@
 import json
 import unittest
+import uuid
+
 from io import StringIO
 
 from lxml import etree
@@ -7,8 +9,8 @@ from lxml import etree
 from handler import convert
 
 
-def validate_output(schema_file_name, xml_file_name):
-    with open("output/" + xml_file_name, 'r') as xml_file:
+def validate_output(schema_file_name, xml_file_name, job_id):
+    with open("/tmp/" + job_id + "/" + xml_file_name, 'r') as xml_file:
         xml_to_check = xml_file.read()
     with open("xml_schemas/" + schema_file_name) as xsd_file:
         xml_schema_doc = etree.parse(xsd_file)
@@ -29,12 +31,13 @@ class TestHandler(unittest.TestCase):
 
     def test_convert(self):
         with open('examples/metadata_spleen_v5_20180313_userFriendlyHeaders.json') as json_data:
+            job_id = str(uuid.uuid1())
             dataset_json = json.load(json_data)
-            convert(dataset_json)
-            validate_output("ENA.project.xsd", "project.xml")
-            validate_output("SRA.sample.xsd", "sample.xml")
-            validate_output("SRA.experiment.xsd", "experiment.xml")
-            validate_output("SRA.run.xsd", "run.xml")
+            convert(dataset_json, job_id)
+            validate_output("ENA.project.xsd", "project.xml", job_id)
+            validate_output("SRA.sample.xsd", "sample.xml", job_id)
+            validate_output("SRA.experiment.xsd", "experiment.xml", job_id)
+            validate_output("SRA.run.xsd", "run.xml", job_id)
 
 
 if __name__ == '__main__':
