@@ -7,6 +7,7 @@ from io import StringIO
 from lxml import etree
 
 from handler import convert
+from handler import zipdir
 
 
 def validate_output(schema_file_name, xml_file_name, job_id):
@@ -34,6 +35,7 @@ class TestHandler(unittest.TestCase):
             job_id = str(uuid.uuid1())
             dataset_json = json.load(json_data)
             convert(dataset_json, job_id)
+            zipdir(job_id)
             validate_output("ENA.project.xsd", "project.xml", job_id)
             validate_output("SRA.sample.xsd", "sample.xml", job_id)
             validate_output("SRA.experiment.xsd", "experiment.xml", job_id)

@@ -1,14 +1,41 @@
 import json
 import os
+import uuid
+import base64
 import xml.etree.ElementTree as ET
 from xml.dom import minidom
+import zipfile
+
+
+def zipdir(job_id):
+    path = "/tmp/" + job_id
+    zip_file_path = path + '.zip'
+    zf = zipfile.ZipFile(zip_file_path, 'w', zipfile.ZIP_DEFLATED)
+    for root, dirs, files in os.walk(path):
+        for file in files:
+            zf.write(os.path.join(root, file))
+    zf.close()
+    return zip_file_path
 
 
 def handle(event, context):
-    submission = _process_event(event)
+    submitted_json = _process_event(event)
+    print(submitted_json)
+    job_id = str(uuid.uuid1())
+    print("Starting job: " + job_id)
+    convert(submitted_json, job_id)
+    zip_file_path = zipdir(job_id)
+    print("Finished job: " + job_id)
+    with open(zip_file_path, "rb") as zip_file:
+        encoded_string = base64.b64encode(zip_file.read())
     response = {
         "statusCode": 200,
-        "body": {}
+        "headers": {
+            "Content-Type": "application/zip",
+            "Content-Disposition": "inline; filename=" + job_id + ".zip"
+        },
+        "body": str(encoded_string.decode("utf-8")),
+        "isBase64Encoded": True
     }
     return response
 
@@ -153,8 +180,8 @@ def convert(dataset_json, job_id):
 
 
 def _process_event(event):
-    submission = json.loads(event["body"][0])
-    return submission
+    submitted_json = json.loads(event["body"])
+    return submitted_json
 
 
 def _output_xml(xml_type, xml_string, job_id):
