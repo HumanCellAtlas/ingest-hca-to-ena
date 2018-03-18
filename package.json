@@ -18,5 +18,8 @@
   "homepage": "https://github.com/HumanCellAtlas/ingest-hca-to-ena#readme",
   "dependencies": {
     "serverless-python-requirements": "^3.3.1"
+  },
+  "devDependencies": {
+    "serverless-apigw-binary": "^0.4.4"
   }
 }

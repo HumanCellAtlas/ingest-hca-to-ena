@@ -18,7 +18,7 @@ def zipdir(job_id):
     return zip_file_path
 
 
-def handle(event, context):
+def handle_convert(event, context):
     submitted_json = _process_event(event)
     print(submitted_json)
     job_id = str(uuid.uuid1())
