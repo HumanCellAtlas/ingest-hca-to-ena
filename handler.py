@@ -1,5 +1,6 @@
 import json
 import os
+import argparse
 import uuid
 import base64
 import xml.etree.ElementTree as ET
@@ -9,7 +10,6 @@ import zipfile
 
 def zipdir(job_id):
     path = "/tmp/" + job_id
-    print(path)
     zip_file_path = path + '.zip'
     zf = zipfile.ZipFile(zip_file_path, 'w', zipfile.ZIP_DEFLATED)
     for file in os.listdir(path):
@@ -193,3 +193,21 @@ def _output_xml(xml_type, xml_string, job_id):
     xml_str = minidom.parseString(xml_string).toprettyxml(indent="   ")
     with open(output_dir + "/" + xml_type + ".xml", "w") as f:
         f.write(xml_str)
+
+
+def main(file_path):
+    with open(file_path) as json_data:
+        job_id = str(uuid.uuid1())
+        dataset_json = json.load(json_data)
+        print("Starting job: " + job_id)
+        convert(dataset_json, job_id)
+        zip_file_path = zipdir(job_id)
+        print("Finished job: " + job_id)
+        print("Results in: " + zip_file_path)
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Converts HCA JSON to ENA XML.')
+    parser.add_argument("source", type=str, help='Source JSON')
+    args = parser.parse_args()
+    main(args.source)
