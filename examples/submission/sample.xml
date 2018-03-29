@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<SAMPLE_SET>
+   <SAMPLE alias="A1-Spl-0-TL5_cells">
+      <TITLE>cells from fresh spleen</TITLE>
+      <SAMPLE_NAME>
+         <TAXON_ID>9606</TAXON_ID>
+      </SAMPLE_NAME>
+   </SAMPLE>
+   <SAMPLE alias="A1-Spl-0-TL6_cells">
+      <TITLE>cells from spleen at 12h ischaemic time</TITLE>
+      <SAMPLE_NAME>
+         <TAXON_ID>9606</TAXON_ID>
+      </SAMPLE_NAME>
+   </SAMPLE>
+   <SAMPLE alias="A1-Spl-0-TL7_cells">
+      <TITLE>cells from spleen at 24h ischaemic time</TITLE>
+      <SAMPLE_NAME>
+         <TAXON_ID>9606</TAXON_ID>
+      </SAMPLE_NAME>
+   </SAMPLE>
+   <SAMPLE alias="A1-Spl-0-TL8_cells">
+      <TITLE>cells from spleen at 72h ischaemic time</TITLE>
+      <SAMPLE_NAME>
+         <TAXON_ID>9606</TAXON_ID>
+      </SAMPLE_NAME>
+   </SAMPLE>
+</SAMPLE_SET>

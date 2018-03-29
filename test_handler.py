@@ -36,6 +36,7 @@ class TestHandler(unittest.TestCase):
             dataset_json = json.load(json_data)
             convert(dataset_json, job_id)
             zipdir(job_id)
+            validate_output("SRA.submission.xsd", "submission.xml", job_id)
             validate_output("ENA.project.xsd", "project.xml", job_id)
             validate_output("SRA.sample.xsd", "sample.xml", job_id)
             validate_output("SRA.experiment.xsd", "experiment.xml", job_id)

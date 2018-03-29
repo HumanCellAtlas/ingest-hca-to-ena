@@ -45,12 +45,14 @@ _study_ref = None
 
 def _add_run_xml(run_set_element, file_json):
     run_element = ET.SubElement(run_set_element, 'RUN')
+    # TODO: determine how to link to experiment ref
     experiment_ref_element = ET.SubElement(run_element, 'EXPERIMENT_REF')
     data_block_element = ET.SubElement(run_element, 'DATA_BLOCK')
     files_element = ET.SubElement(data_block_element, 'FILES')
     file_element = ET.SubElement(files_element, 'FILE')
     file_element.set('filetype', 'bam')
     file_element.set('checksum_method', 'MD5')
+    # TODO: create md5 checksum for files
     file_element.set('checksum', '')
     if 'file_core' in file_json:
         file_core = file_json['file_core']
@@ -65,6 +67,7 @@ def _add_experiment_xml(experiment_set_element, process_json):
     study_ref_element = ET.SubElement(experiment_element, 'STUDY_REF')
     design_element = ET.SubElement(experiment_element, 'DESIGN')
     design_description_element = ET.SubElement(design_element, 'DESIGN_DESCRIPTION')
+    # TODO: determine and add sample refname
     sample_descriptor_element = ET.SubElement(design_element, 'SAMPLE_DESCRIPTOR')
     library_descriptor_element = ET.SubElement(design_element, 'LIBRARY_DESCRIPTOR')
     library_strategy_element = ET.SubElement(library_descriptor_element, 'LIBRARY_STRATEGY')
@@ -75,8 +78,10 @@ def _add_experiment_xml(experiment_set_element, process_json):
     platform_element = ET.SubElement(experiment_element, 'PLATFORM')
     illumina_element = ET.SubElement(platform_element, 'ILLUMINA')
     instrument_model_element = ET.SubElement(illumina_element, 'INSTRUMENT_MODEL')
+    # TODO: check library strategy value
     library_strategy_element.text = "RNA-Seq"
     library_source_element.text = "TRANSCRIPTOMIC SINGLE CELL"
+    # TODO: check library selection value
     library_selection_element.text = "unspecified"
     instrument_model_element.text = "unspecified"
     if 'process_core' in process_json:
@@ -157,7 +162,18 @@ def _create_run_set_xml(files_json):
     return run_set_xml
 
 
+def _create_submission_xml():
+    submission_element = ET.Element('SUBMISSION')
+    actions_element = ET.SubElement(submission_element, 'ACTIONS')
+    action_element = ET.SubElement(actions_element, 'ACTION')
+    ET.SubElement(action_element, 'ADD')
+    submission_xml = ET.tostring(submission_element)
+    return submission_xml
+
+
 def convert(dataset_json, job_id):
+    submission_xml = _create_submission_xml()
+    _output_xml("submission", submission_xml, job_id)
     for element in dataset_json:
         if 'schema_type' in element:
             schema_type = element['schema_type']
