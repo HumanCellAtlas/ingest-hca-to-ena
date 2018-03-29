@@ -1,0 +1,99 @@
+<?xml version="1.0" ?>
+<RUN_SET>
+   <RUN alias="HCATisStabAug177078016_S1_L001_I1_001.fastq.gz">
+      <EXPERIMENT_REF/>
+      <DATA_BLOCK>
+         <FILES>
+            <FILE checksum="" checksum_method="MD5" filename="HCATisStabAug177078016_S1_L001_I1_001.fastq.gz" filetype="bam"/>
+         </FILES>
+      </DATA_BLOCK>
+   </RUN>
+   <RUN alias="HCATisStabAug177078016_S1_L001_R1_001.fastq.gz">
+      <EXPERIMENT_REF/>
+      <DATA_BLOCK>
+         <FILES>
+            <FILE checksum="" checksum_method="MD5" filename="HCATisStabAug177078016_S1_L001_R1_001.fastq.gz" filetype="bam"/>
+         </FILES>
+      </DATA_BLOCK>
+   </RUN>
+   <RUN alias="HCATisStabAug177078016_S1_L001_R2_001.fastq.gz">
+      <EXPERIMENT_REF/>
+      <DATA_BLOCK>
+         <FILES>
+            <FILE checksum="" checksum_method="MD5" filename="HCATisStabAug177078016_S1_L001_R2_001.fastq.gz" filetype="bam"/>
+         </FILES>
+      </DATA_BLOCK>
+   </RUN>
+   <RUN alias="HCATisStabAug177078016_S2_L001_I1_001.fastq.gz">
+      <EXPERIMENT_REF/>
+      <DATA_BLOCK>
+         <FILES>
+            <FILE checksum="" checksum_method="MD5" filename="HCATisStabAug177078016_S2_L001_I1_001.fastq.gz" filetype="bam"/>
+         </FILES>
+      </DATA_BLOCK>
+   </RUN>
+   <RUN alias="HCATisStabAug177078016_S2_L001_R1_001.fastq.gz">
+      <EXPERIMENT_REF/>
+      <DATA_BLOCK>
+         <FILES>
+            <FILE checksum="" checksum_method="MD5" filename="HCATisStabAug177078016_S2_L001_R1_001.fastq.gz" filetype="bam"/>
+         </FILES>
+      </DATA_BLOCK>
+   </RUN>
+   <RUN alias="HCATisStabAug177078016_S2_L001_R2_001.fastq.gz">
+      <EXPERIMENT_REF/>
+      <DATA_BLOCK>
+         <FILES>
+            <FILE checksum="" checksum_method="MD5" filename="HCATisStabAug177078016_S2_L001_R2_001.fastq.gz" filetype="bam"/>
+         </FILES>
+      </DATA_BLOCK>
+   </RUN>
+   <RUN alias="HCATisStabAug177078016_S3_L001_I1_001.fastq.gz">
+      <EXPERIMENT_REF/>
+      <DATA_BLOCK>
+         <FILES>
+            <FILE checksum="" checksum_method="MD5" filename="HCATisStabAug177078016_S3_L001_I1_001.fastq.gz" filetype="bam"/>
+         </FILES>
+      </DATA_BLOCK>
+   </RUN>
+   <RUN alias="HCATisStabAug177078016_S3_L001_R1_001.fastq.gz">
+      <EXPERIMENT_REF/>
+      <DATA_BLOCK>
+         <FILES>
+            <FILE checksum="" checksum_method="MD5" filename="HCATisStabAug177078016_S3_L001_R1_001.fastq.gz" filetype="bam"/>
+         </FILES>
+      </DATA_BLOCK>
+   </RUN>
+   <RUN alias="HCATisStabAug177078016_S3_L001_R2_001.fastq.gz">
+      <EXPERIMENT_REF/>
+      <DATA_BLOCK>
+         <FILES>
+            <FILE checksum="" checksum_method="MD5" filename="HCATisStabAug177078016_S3_L001_R2_001.fastq.gz" filetype="bam"/>
+         </FILES>
+      </DATA_BLOCK>
+   </RUN>
+   <RUN alias="HCATisStabAug177078016_S4_L001_I1_001.fastq.gz">
+      <EXPERIMENT_REF/>
+      <DATA_BLOCK>
+         <FILES>
+            <FILE checksum="" checksum_method="MD5" filename="HCATisStabAug177078016_S4_L001_I1_001.fastq.gz" filetype="bam"/>
+         </FILES>
+      </DATA_BLOCK>
+   </RUN>
+   <RUN alias="HCATisStabAug177078016_S4_L001_R1_001.fastq.gz">
+      <EXPERIMENT_REF/>
+      <DATA_BLOCK>
+         <FILES>
+            <FILE checksum="" checksum_method="MD5" filename="HCATisStabAug177078016_S4_L001_R1_001.fastq.gz" filetype="bam"/>
+         </FILES>
+      </DATA_BLOCK>
+   </RUN>
+   <RUN alias="HCATisStabAug177078016_S4_L001_R2_001.fastq.gz">
+      <EXPERIMENT_REF/>
+      <DATA_BLOCK>
+         <FILES>
+            <FILE checksum="" checksum_method="MD5" filename="HCATisStabAug177078016_S4_L001_R2_001.fastq.gz" filetype="bam"/>
+         </FILES>
+      </DATA_BLOCK>
+   </RUN>
+</RUN_SET>

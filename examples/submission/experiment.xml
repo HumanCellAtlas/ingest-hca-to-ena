@@ -1,24 +1,87 @@
 <?xml version="1.0" ?>
 <EXPERIMENT_SET>
-   <EXPERIMENT alias="sequencing_process_1">
-      <TITLE>10x_v2 sequencing</TITLE>
-      <STUDY_REF refname="Tissue_stability"/>
-      <DESIGN>
-         <DESIGN_DESCRIPTION/>
-         <SAMPLE_DESCRIPTOR/>
-         <LIBRARY_DESCRIPTOR>
-            <LIBRARY_STRATEGY>RNA-Seq</LIBRARY_STRATEGY>
-            <LIBRARY_SOURCE>TRANSCRIPTOMIC SINGLE CELL</LIBRARY_SOURCE>
-            <LIBRARY_SELECTION>unspecified</LIBRARY_SELECTION>
-            <LIBRARY_LAYOUT>
-               <SINGLE/>
-            </LIBRARY_LAYOUT>
-         </LIBRARY_DESCRIPTOR>
-      </DESIGN>
-      <PLATFORM>
-         <ILLUMINA>
-            <INSTRUMENT_MODEL>unspecified</INSTRUMENT_MODEL>
-         </ILLUMINA>
-      </PLATFORM>
-   </EXPERIMENT>
+    <EXPERIMENT alias="sequencing_process_1_1">
+        <TITLE>10x_v2 sequencing</TITLE>
+        <STUDY_REF refname="Tissue_stability"/>
+        <DESIGN>
+            <DESIGN_DESCRIPTION/>
+            <SAMPLE_DESCRIPTOR refname="A1-Spl-0-TL5_cells"/>
+            <LIBRARY_DESCRIPTOR>
+                <LIBRARY_STRATEGY>RNA-Seq</LIBRARY_STRATEGY>
+                <LIBRARY_SOURCE>TRANSCRIPTOMIC SINGLE CELL</LIBRARY_SOURCE>
+                <LIBRARY_SELECTION>unspecified</LIBRARY_SELECTION>
+                <LIBRARY_LAYOUT>
+                    <SINGLE/>
+                </LIBRARY_LAYOUT>
+            </LIBRARY_DESCRIPTOR>
+        </DESIGN>
+        <PLATFORM>
+            <ILLUMINA>
+                <INSTRUMENT_MODEL>unspecified</INSTRUMENT_MODEL>
+            </ILLUMINA>
+        </PLATFORM>
+    </EXPERIMENT>
+    <EXPERIMENT alias="sequencing_process_1_2">
+        <TITLE>10x_v2 sequencing</TITLE>
+        <STUDY_REF refname="Tissue_stability"/>
+        <DESIGN>
+            <DESIGN_DESCRIPTION/>
+            <SAMPLE_DESCRIPTOR refname="A1-Spl-0-TL6_cells"/>
+            <LIBRARY_DESCRIPTOR>
+                <LIBRARY_STRATEGY>RNA-Seq</LIBRARY_STRATEGY>
+                <LIBRARY_SOURCE>TRANSCRIPTOMIC SINGLE CELL</LIBRARY_SOURCE>
+                <LIBRARY_SELECTION>unspecified</LIBRARY_SELECTION>
+                <LIBRARY_LAYOUT>
+                    <SINGLE/>
+                </LIBRARY_LAYOUT>
+            </LIBRARY_DESCRIPTOR>
+        </DESIGN>
+        <PLATFORM>
+            <ILLUMINA>
+                <INSTRUMENT_MODEL>unspecified</INSTRUMENT_MODEL>
+            </ILLUMINA>
+        </PLATFORM>
+    </EXPERIMENT>
+    <EXPERIMENT alias="sequencing_process_1_3">
+        <TITLE>10x_v2 sequencing</TITLE>
+        <STUDY_REF refname="Tissue_stability"/>
+        <DESIGN>
+            <DESIGN_DESCRIPTION/>
+            <SAMPLE_DESCRIPTOR refname="A1-Spl-0-TL7_cells"/>
+            <LIBRARY_DESCRIPTOR>
+                <LIBRARY_STRATEGY>RNA-Seq</LIBRARY_STRATEGY>
+                <LIBRARY_SOURCE>TRANSCRIPTOMIC SINGLE CELL</LIBRARY_SOURCE>
+                <LIBRARY_SELECTION>unspecified</LIBRARY_SELECTION>
+                <LIBRARY_LAYOUT>
+                    <SINGLE/>
+                </LIBRARY_LAYOUT>
+            </LIBRARY_DESCRIPTOR>
+        </DESIGN>
+        <PLATFORM>
+            <ILLUMINA>
+                <INSTRUMENT_MODEL>unspecified</INSTRUMENT_MODEL>
+            </ILLUMINA>
+        </PLATFORM>
+    </EXPERIMENT>
+    <EXPERIMENT alias="sequencing_process_1_4">
+        <TITLE>10x_v2 sequencing</TITLE>
+        <STUDY_REF refname="Tissue_stability"/>
+        <DESIGN>
+            <DESIGN_DESCRIPTION/>
+            <SAMPLE_DESCRIPTOR refname="A1-Spl-0-TL8_cells"/>
+            <LIBRARY_DESCRIPTOR>
+                <LIBRARY_STRATEGY>RNA-Seq</LIBRARY_STRATEGY>
+                <LIBRARY_SOURCE>TRANSCRIPTOMIC SINGLE CELL</LIBRARY_SOURCE>
+                <LIBRARY_SELECTION>unspecified</LIBRARY_SELECTION>
+                <LIBRARY_LAYOUT>
+                    <SINGLE/>
+                </LIBRARY_LAYOUT>
+            </LIBRARY_DESCRIPTOR>
+        </DESIGN>
+        <PLATFORM>
+            <ILLUMINA>
+                <INSTRUMENT_MODEL>unspecified</INSTRUMENT_MODEL>
+            </ILLUMINA>
+        </PLATFORM>
+    </EXPERIMENT>
 </EXPERIMENT_SET>

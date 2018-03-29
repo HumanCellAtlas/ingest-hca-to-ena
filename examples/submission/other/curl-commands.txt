@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+lftp -e 'put *.bam; bye' -u user,password ftp.foo.com
+
+ftp webin.ebi.ac.uk
+
+curl -X POST \
+  https://wwwdev.ebi.ac.uk/ena/submit/drop-box/submit/ \
+  -H 'Authorization: Basic V2ViaW4tMzA6M25AIUAyLTEyOA==' \
+  -H 'Cache-Control: no-cache' \
+  -H 'Postman-Token: d575dbc3-296e-4cef-9d9c-9d33d68423bc' \
+  -H 'content-type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW' \
+  -F SUBMISSION=@/Users/dvaughan/Development/git/HCA/ingest-hca-to-ena/examples/submission/submission.xml \
+  -F PROJECT=@/Users/dvaughan/Development/git/HCA/ingest-hca-to-ena/examples/submission/project.xml
+
+curl -X POST \
+  https://wwwdev.ebi.ac.uk/ena/submit/drop-box/submit/ \
+  -H 'Authorization: Basic V2ViaW4tMzA6M25AIUAyLTEyOA==' \
+  -H 'Cache-Control: no-cache' \
+  -H 'Postman-Token: eb340e1d-c84a-44fd-9fa2-fb245e89cb5f' \
+  -H 'content-type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW' \
+  -F SUBMISSION=@/Users/dvaughan/Development/git/HCA/ingest-hca-to-ena/examples/submission/submission.xml \
+  -F SAMPLE=@/Users/dvaughan/Development/git/HCA/ingest-hca-to-ena/examples/submission/sample.xml
+
+curl -X POST \
+  https://wwwdev.ebi.ac.uk/ena/submit/drop-box/submit/ \
+  -H 'Authorization: Basic V2ViaW4tMzA6M25AIUAyLTEyOA==' \
+  -H 'Cache-Control: no-cache' \
+  -H 'Postman-Token: bcb11dcb-3538-4b35-a3db-e17d8a2b4133' \
+  -H 'content-type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW' \
+  -F SUBMISSION=@/Users/dvaughan/Development/git/HCA/ingest-hca-to-ena/examples/submission/submission.xml \
+  -F EXPERIMENT=@/Users/dvaughan/Development/git/HCA/ingest-hca-to-ena/examples/submission/experiment.xml
+
+curl -X POST \
+  https://wwwdev.ebi.ac.uk/ena/submit/drop-box/submit/ \
+  -H 'Authorization: Basic V2ViaW4tMzA6M25AIUAyLTEyOA==' \
+  -H 'Cache-Control: no-cache' \
+  -H 'Postman-Token: 520b4bd0-4c7c-48fd-832e-758001e57d92' \
+  -H 'content-type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW' \
+  -F SUBMISSION=@/Users/dvaughan/Development/git/HCA/ingest-hca-to-ena/examples/submission/submission.xml \
+  -F RUN=@/Users/dvaughan/Development/git/HCA/ingest-hca-to-ena/examples/submission/run.xml

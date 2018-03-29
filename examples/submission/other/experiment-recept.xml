@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="receipt.xsl"?>
+<RECEIPT receiptDate="2018-03-29T12:47:27.505+01:00" submissionFile="submission.xml" success="true">
+    <EXPERIMENT accession="ERX2474234" alias="sequencing_process_1_1" status="PRIVATE"/>
+    <EXPERIMENT accession="ERX2474235" alias="sequencing_process_1_2" status="PRIVATE"/>
+    <EXPERIMENT accession="ERX2474236" alias="sequencing_process_1_3" status="PRIVATE"/>
+    <EXPERIMENT accession="ERX2474237" alias="sequencing_process_1_4" status="PRIVATE"/>
+    <SUBMISSION accession="ERA1259714" alias="SUBMISSION-29-03-2018-12:47:27:282"/>
+    <MESSAGES>
+        <INFO>Submission has been committed.</INFO>
+        <INFO>This submission is a TEST submission and will be discarded within 24 hours</INFO>
+    </MESSAGES>
+    <ACTIONS>ADD</ACTIONS>
+</RECEIPT>
