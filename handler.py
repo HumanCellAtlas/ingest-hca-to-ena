@@ -6,10 +6,12 @@ import base64
 import xml.etree.ElementTree as ET
 from xml.dom import minidom
 import zipfile
+import re
 
 
 def zipdir(job_id):
-    path = "/tmp/" + job_id
+    # path = "/tmp/" + job_id
+    path = "examples/tmp/" + job_id
     zip_file_path = path + '.zip'
     zf = zipfile.ZipFile(zip_file_path, 'w', zipfile.ZIP_DEFLATED)
     for file in os.listdir(path):
@@ -44,21 +46,26 @@ _study_ref = None
 
 
 def _add_run_xml(run_set_element, file_json):
-    run_element = ET.SubElement(run_set_element, 'RUN')
-    # TODO: determine how to link to experiment ref
-    experiment_ref_element = ET.SubElement(run_element, 'EXPERIMENT_REF')
-    data_block_element = ET.SubElement(run_element, 'DATA_BLOCK')
-    files_element = ET.SubElement(data_block_element, 'FILES')
-    file_element = ET.SubElement(files_element, 'FILE')
-    file_element.set('filetype', 'bam')
-    file_element.set('checksum_method', 'MD5')
-    # TODO: create md5 checksum for files
-    file_element.set('checksum', '')
-    if 'file_core' in file_json:
-        file_core = file_json['file_core']
-        if 'file_name' in file_core:
-            run_element.set('alias', file_core['file_name'])
-            file_element.set('filename', file_core['file_name'])
+    if file_json['read_index'] in ('read1'): # read1 is the only required read/file for each run
+        run_element = ET.SubElement(run_set_element, 'RUN')
+        # TODO: determine how to link to experiment ref
+        experiment_ref_element = ET.SubElement(run_element, 'EXPERIMENT_REF')
+        data_block_element = ET.SubElement(run_element, 'DATA_BLOCK')
+        files_element = ET.SubElement(data_block_element, 'FILES')
+        file_element = ET.SubElement(files_element, 'FILE')
+        file_element.set('filetype', 'bam')
+        file_element.set('checksum_method', 'MD5')
+        # TODO: create md5 checksum for files
+        file_element.set('checksum', '')
+        if 'file_core' in file_json:
+            file_core = file_json['file_core']
+            if 'file_name' in file_core:
+                # TODO: convert fastq|fastq.gz to bam
+                print(file_core['file_name'])
+                bam_file_name = re.sub("_R1","",file_core['file_name'].split('fastq')[0]) + 'bam'
+                print(bam_file_name)
+                run_element.set('alias', bam_file_name)
+                file_element.set('filename', bam_file_name)
 
 
 def _add_experiment_xml(experiment_set_element, process_json):
@@ -82,7 +89,8 @@ def _add_experiment_xml(experiment_set_element, process_json):
     library_strategy_element.text = "RNA-Seq"
     library_source_element.text = "TRANSCRIPTOMIC SINGLE CELL"
     # TODO: check library selection value
-    library_selection_element.text = "unspecified"
+    # library_selection_element.text = "unspecified"
+    library_selection_element.text = "TODO"
     instrument_model_element.text = "unspecified"
     if 'process_core' in process_json:
         process_core = process_json['process_core']
@@ -201,7 +209,8 @@ def _process_event(event):
 
 
 def _output_xml(xml_type, xml_string, job_id):
-    output_dir = "/tmp/" + job_id
+    # output_dir = "/tmp/" + job_id
+    output_dir = "examples/tmp/" + job_id
     try:
         os.stat(output_dir)
     except:
