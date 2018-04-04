@@ -45,11 +45,14 @@ def handle_convert(event, context):
 _study_ref = None
 
 
-def _add_run_xml(run_set_element, file_json):
+def _add_run_xml(run_set_element, file_json): # links are in file_json? this is probably wrong
     if file_json['read_index'] in ('read1'): # read1 is the only required read/file for each run
         run_element = ET.SubElement(run_set_element, 'RUN')
         # TODO: determine how to link to experiment ref
         experiment_ref_element = ET.SubElement(run_element, 'EXPERIMENT_REF')
+        # if 'process_core' in process_json and process_json['describedBy'].endswith('sequencing_process'):
+        #     process_core = process_json['process_core']
+        #     experiment_ref_element.set('refname', process_core['process_id'])
         data_block_element = ET.SubElement(run_element, 'DATA_BLOCK')
         files_element = ET.SubElement(data_block_element, 'FILES')
         file_element = ET.SubElement(files_element, 'FILE')
@@ -60,12 +63,15 @@ def _add_run_xml(run_set_element, file_json):
         if 'file_core' in file_json:
             file_core = file_json['file_core']
             if 'file_name' in file_core:
-                # TODO: convert fastq|fastq.gz to bam
-                print(file_core['file_name'])
-                bam_file_name = re.sub("_R1","",file_core['file_name'].split('fastq')[0]) + 'bam'
-                print(bam_file_name)
+                # Generate bam file name
+                bam_file_name = re.sub('_R1', '', file_core['file_name'].split('fastq')[0]) + 'bam'
                 run_element.set('alias', bam_file_name)
                 file_element.set('filename', bam_file_name)
+                # Get sequencing process ID for experiment_ref
+                # for link in links_json:
+                #     if link['destination_id'] == file_core['file_name'] and link['source_type'] == 'sequencing':
+                #         experiment_ref_element.set('refname', link['source_id'])
+                #         # TODO: exit loop
 
 
 def _add_experiment_xml(experiment_set_element, process_json):
@@ -162,9 +168,11 @@ def _create_experiment_set_xml(processes_json):
     return experiment_set_xml
 
 
-def _create_run_set_xml(files_json):
+def _create_run_set_xml(files_json, links_json):
+    # print(links_json)
     run_set_element = ET.Element('RUN_SET')
     for file_json in files_json:
+        print(file_json)
         _add_run_xml(run_set_element, file_json)
     run_set_xml = ET.tostring(run_set_element)
     return run_set_xml
@@ -187,20 +195,26 @@ def convert(dataset_json, job_id):
             schema_type = element['schema_type']
             if schema_type == 'project':
                 if 'content' in element:
-                    project_set_xml = _create_project_set_xml(element['content'])
+                    project_json = element['content']
+                    project_set_xml = _create_project_set_xml(project_json)
                     _output_xml("project", project_set_xml, job_id)
             if schema_type == 'biomaterial':
                 if 'content' in element:
-                    sample_set_xml = _create_sample_set_xml(element['content'])
+                    biomaterial_json = element['content']
+                    sample_set_xml = _create_sample_set_xml(biomaterial_json)
                     _output_xml("sample", sample_set_xml, job_id)
             if schema_type == 'process':
                 if 'content' in element:
-                    experiment_set_xml = _create_experiment_set_xml(element['content'])
+                    process_json = element['content']
+                    experiment_set_xml = _create_experiment_set_xml(process_json)
                     _output_xml("experiment", experiment_set_xml, job_id)
             if schema_type == 'file':
                 if 'content' in element:
-                    run_set_xml = _create_run_set_xml(element['content'])
-                    _output_xml("run", run_set_xml, job_id)
+                    file_json = element['content']
+                    if 'links' in element:
+                        links_json = element['links']
+                        run_set_xml = _create_run_set_xml(file_json, links_json)
+                        _output_xml("run", run_set_xml, job_id)
 
 
 def _process_event(event):

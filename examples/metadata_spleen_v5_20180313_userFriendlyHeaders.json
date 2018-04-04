@@ -1,4 +1,5 @@
-[ {
+[
+  {
   "schema_type" : "project",
   "content" : [ {
     "describedBy" : "https://schema.humancellatlas.org/type/project/5.0.1/project",
@@ -13,7 +14,8 @@
     },
     "supplementary_files" : [ "Experimental_report.docx", "Human_spleen_dissociation_protocol.pdf", "Clinical_metadata.xlsx", "284C_IMAGE_spleen_annotated.jpeg", "10x_protocol.pdf" ]
   } ]
-}, {
+},
+  {
   "schema_type" : "biomaterial",
   "content" : [ {
     "describedBy" : "https://schema.humancellatlas.org/type/biomaterial/5.0.0/donor_organism",
@@ -73,7 +75,8 @@
     "destination_type" : "process",
     "destination_ids" : [ "" ]
   } ]
-}, {
+},
+  {
   "schema_type" : "biomaterial",
   "content" : [ {
     "describedBy" : "https://schema.humancellatlas.org/type/biomaterial/5.0.0/specimen_from_organism",
@@ -245,7 +248,8 @@
     "destination_type" : "process",
     "destination_ids" : [ "enrichment_process_1" ]
   } ]
-}, {
+},
+  {
   "schema_type" : "biomaterial",
   "content" : [ {
     "describedBy" : "https://schema.humancellatlas.org/type/biomaterial/5.0.0/cell_suspension",
@@ -337,7 +341,8 @@
     "destination_type" : "process",
     "destination_ids" : [ "" ]
   } ]
-}, {
+},
+  {
   "schema_type" : "process",
   "content" : [ {
     "describedBy" : "https://schema.humancellatlas.org/type/process/biomaterial_collection/5.0.0/dissociation_process",
@@ -358,7 +363,8 @@
     "destination_type" : "protocol",
     "destination_ids" : [ "Human_spleen_dissociation_protocol" ]
   } ]
-}, {
+},
+  {
   "schema_type" : "process",
   "content" : [ {
     "describedBy" : "https://schema.humancellatlas.org/type/process/biomaterial_collection/5.0.0/enrichment_process",
@@ -379,7 +385,8 @@
     "destination_type" : "protocol",
     "destination_ids" : [ "Human_spleen_dissociation_protocol" ]
   } ]
-}, {
+},
+  {
   "schema_type" : "process",
   "content" : [ {
     "describedBy" : "https://schema.humancellatlas.org/type/process/sequencing/5.0.0/library_preparation_process",
@@ -434,7 +441,8 @@
     "destination_type" : "protocol",
     "destination_ids" : [ "10x_sequencing_protocol" ]
   } ]
-}, {
+},
+  {
   "schema_type" : "process",
   "content" : [ {
     "describedBy" : "https://schema.humancellatlas.org/type/process/sequencing/5.0.0/sequencing_process",
@@ -458,7 +466,8 @@
     "destination_type" : "protocol",
     "destination_ids" : [ "10x_sequencing_protocol" ]
   } ]
-}, {
+},
+  {
   "schema_type" : "protocol",
   "content" : [ {
     "describedBy" : "https://schema.humancellatlas.org/type/protocol/5.0.0/protocol",
@@ -492,9 +501,11 @@
       "text" : "EFO:0007832"
     }
   } ]
-}, {
+},
+  {
   "schema_type" : "file",
-  "content" : [ {
+  "content" : [
+    {
     "describedBy" : "https://schema.humancellatlas.org/type/file/5.0.0/sequence_file",
     "schema_version" : "5.0.0",
     "schema_type" : "file",
@@ -506,7 +517,8 @@
     },
     "read_index" : "index1",
     "lane_index" : 1
-  }, {
+  },
+    {
     "describedBy" : "https://schema.humancellatlas.org/type/file/5.0.0/sequence_file",
     "schema_version" : "5.0.0",
     "schema_type" : "file",
@@ -518,7 +530,8 @@
     },
     "read_index" : "read1",
     "lane_index" : 1
-  }, {
+  },
+    {
     "describedBy" : "https://schema.humancellatlas.org/type/file/5.0.0/sequence_file",
     "schema_version" : "5.0.0",
     "schema_type" : "file",
@@ -530,7 +543,8 @@
     },
     "read_index" : "read2",
     "lane_index" : 1
-  }, {
+  },
+    {
     "describedBy" : "https://schema.humancellatlas.org/type/file/5.0.0/sequence_file",
     "schema_version" : "5.0.0",
     "schema_type" : "file",
@@ -542,7 +556,8 @@
     },
     "read_index" : "index1",
     "lane_index" : 1
-  }, {
+  },
+    {
     "describedBy" : "https://schema.humancellatlas.org/type/file/5.0.0/sequence_file",
     "schema_version" : "5.0.0",
     "schema_type" : "file",
@@ -554,7 +569,8 @@
     },
     "read_index" : "read1",
     "lane_index" : 1
-  }, {
+  },
+    {
     "describedBy" : "https://schema.humancellatlas.org/type/file/5.0.0/sequence_file",
     "schema_version" : "5.0.0",
     "schema_type" : "file",
@@ -566,7 +582,8 @@
     },
     "read_index" : "read2",
     "lane_index" : 1
-  }, {
+  },
+    {
     "describedBy" : "https://schema.humancellatlas.org/type/file/5.0.0/sequence_file",
     "schema_version" : "5.0.0",
     "schema_type" : "file",
@@ -578,7 +595,8 @@
     },
     "read_index" : "index1",
     "lane_index" : 1
-  }, {
+  },
+    {
     "describedBy" : "https://schema.humancellatlas.org/type/file/5.0.0/sequence_file",
     "schema_version" : "5.0.0",
     "schema_type" : "file",
@@ -590,7 +608,8 @@
     },
     "read_index" : "read1",
     "lane_index" : 1
-  }, {
+  },
+    {
     "describedBy" : "https://schema.humancellatlas.org/type/file/5.0.0/sequence_file",
     "schema_version" : "5.0.0",
     "schema_type" : "file",
@@ -602,7 +621,8 @@
     },
     "read_index" : "read2",
     "lane_index" : 1
-  }, {
+  },
+    {
     "describedBy" : "https://schema.humancellatlas.org/type/file/5.0.0/sequence_file",
     "schema_version" : "5.0.0",
     "schema_type" : "file",
@@ -614,7 +634,8 @@
     },
     "read_index" : "index1",
     "lane_index" : 1
-  }, {
+  },
+    {
     "describedBy" : "https://schema.humancellatlas.org/type/file/5.0.0/sequence_file",
     "schema_version" : "5.0.0",
     "schema_type" : "file",
@@ -626,7 +647,8 @@
     },
     "read_index" : "read1",
     "lane_index" : 1
-  }, {
+  },
+    {
     "describedBy" : "https://schema.humancellatlas.org/type/file/5.0.0/sequence_file",
     "schema_version" : "5.0.0",
     "schema_type" : "file",
@@ -638,7 +660,8 @@
     },
     "read_index" : "read2",
     "lane_index" : 1
-  } ],
+  }
+  ],
   "links" : [ {
     "source_type" : "file",
     "source_id" : "HCATisStabAug177078016_S1_L001_I1_001.fastq.gz",
