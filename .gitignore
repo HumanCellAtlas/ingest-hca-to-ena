@@ -232,3 +232,4 @@ typings/
 # next.js build output
 .next
 
+/examples/submission/other/curl-commands.txt
