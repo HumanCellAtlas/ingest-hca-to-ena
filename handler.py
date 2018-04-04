@@ -98,6 +98,7 @@ def _add_sample_xml(sample_set_element, biomaterial_json):
     sample_element = ET.SubElement(sample_set_element, 'SAMPLE')
     title_element = ET.SubElement(sample_element, 'TITLE')
     sample_name_element = ET.SubElement(sample_element, 'SAMPLE_NAME')
+    # sample_attributes_elements = ET.SubElement(sample_element, 'SAMPLE ATTRIBUTES')
     taxon_id_element = ET.SubElement(sample_name_element, 'TAXON_ID')
     if 'biomaterial_core' in biomaterial_json:
         biomaterial_core = biomaterial_json['biomaterial_core']
@@ -107,7 +108,6 @@ def _add_sample_xml(sample_set_element, biomaterial_json):
             title_element.text = biomaterial_core['biomaterial_name']
         if 'ncbi_taxon_id' in biomaterial_core:
             taxon_id_element.text = str(biomaterial_core['ncbi_taxon_id'][0])
-
 
 def _add_project_xml(project_set_element, project_json):
     project_element = ET.SubElement(project_set_element, 'PROJECT')
