@@ -5,6 +5,13 @@ Converts HCA pre-ingest JSON to ENA XML and packages it as a zip.
 ## Test
 Tests take an example output, generates ENA XML files and validates each against ENA schemas. The XML files are then packaged into a zip file.
 
+## Run at the command line
+```
+handler.py ./examples/metadata_spleen_v5_20180313_userFriendlyHeaders.json
+```
+
+Will create a directory in `/tmp` containing the XML and a corresponding ZIP of the directory.
+
 ## Run Lambda Locally
 ```
 serverless invoke local --function convert --path ./examples/metadata_spleen_v5_20180313_userFriendlyHeaders.json
