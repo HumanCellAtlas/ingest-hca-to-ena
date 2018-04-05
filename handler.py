@@ -148,12 +148,18 @@ def _add_project_xml(project_set_element, project_json):
             title_element.text = project_core['project_title']
         if 'project_description' in project_core:
             description_element.text = project_core['project_description']
+    if 'contributors' in project_json:
+        # collabs = [(contrib['contact_name']) for contrib in project_json['contributors']]
+        for contrib in project_json['contributors']:
+            collaborators_element.text = (contrib['contact_name'])
+        print(collaborators_element)
+        exit()
+        # collaborators_element.text
 
 
 def _create_project_set_xml(projects_json):
     project_set_element = ET.Element('PROJECT_SET')
-    for project_json in projects_json:
-        _add_project_xml(project_set_element, project_json)
+    _add_project_xml(project_set_element, projects_json)
     project_set_xml = ET.tostring(project_set_element)
     return project_set_xml
 
@@ -198,6 +204,10 @@ def _create_submission_xml():
 def convert(dataset_json, job_id):
     submission_xml = _create_submission_xml()
     _output_xml("submission", submission_xml, job_id)
+    for element in dataset_json: # Get links first; they are needed elsewhere
+        if 'schema_type' in element:
+            if element['schema_type'] == 'link_bundle':
+                links_json = element['links']
     for element in dataset_json:
         if 'schema_type' in element:
             schema_type = element['schema_type']
@@ -206,21 +216,26 @@ def convert(dataset_json, job_id):
                     project_json = element['content']
                     project_set_xml = _create_project_set_xml(project_json)
                     _output_xml("project", project_set_xml, job_id)
+                    exit()
             if schema_type == 'biomaterial_bundle':
-                if 'content' in element:
-                    biomaterial_json = element['content']
-                    sample_set_xml = _create_sample_set_xml(biomaterial_json)
-                    _output_xml("sample", sample_set_xml, job_id)
+                biomaterials = element['biomaterials']
+                for biomaterial in biomaterials:
+                    if 'content' in biomaterial and biomaterial['content']['describedBy'].endswith('cell_suspension'):
+                        biomaterial_json = biomaterial['content']
+                        sample_set_xml = _create_sample_set_xml(biomaterial_json)
+                        _output_xml("sample", sample_set_xml, job_id)
             if schema_type == 'process_bundle':
-                if 'content' in element:
-                    process_json = element['content']
-                    experiment_set_xml = _create_experiment_set_xml(process_json)
-                    _output_xml("experiment", experiment_set_xml, job_id)
+                processes = element['processes']
+                for process in processes:
+                    if 'content' in process:
+                        process_json = process['content']
+                        experiment_set_xml = _create_experiment_set_xml(process_json)
+                        _output_xml("experiment", experiment_set_xml, job_id)
             if schema_type == 'file_bundle':
-                if 'content' in element:
-                    file_json = element['content']
-                    if 'links' in element:
-                        links_json = element['links']
+                files = element['files']
+                for file in files:
+                    if 'content' in file:
+                        file_json = file['content']
                         run_set_xml = _create_run_set_xml(file_json, links_json)
                         _output_xml("run", run_set_xml, job_id)
 
