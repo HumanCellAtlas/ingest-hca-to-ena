@@ -70,6 +70,23 @@ def _add_run_xml(run_set_element, file_json, links_json): # links are in file_js
                 # if link['destination_ids'] == file_core['file_name'] and link['source_type'] == 'sequencing':
                 #     experiment_ref_element.set('refname', link['source_id'])
                     break # TODO: confirm this breaks the loop at the appropriate point
+    # TODO: Add additional attributes not in ENA schema; make this a function
+    run_attributes = ET.SubElement(run_set_element, 'RUN_ATTRIBUTES') # HCA metadata not in ENA schema
+    for attrib in file_json:
+        if attrib not in ['file_core', 'schema_type', 'describedBy', 'schema_version', 'read_index']:
+            if file_json[attrib] is list:
+                for item in file_json[attrib]:
+                    run_attribute = ET.SubElement(run_attributes, 'RUN_ATTRIBUTE')
+                    run_attribute_tag = ET.SubElement(run_attribute, 'TAG')
+                    run_attribute_tag.text = attrib
+                    run_attribute_val = ET.SubElement(run_attribute, 'VALUE')
+                    run_attribute_val.text = item
+            else:
+                run_attribute = ET.SubElement(run_attributes, 'RUN_ATTRIBUTE')
+                run_attribute_tag = ET.SubElement(run_attribute, 'TAG')
+                run_attribute_tag.text = attrib
+                run_attribute_val = ET.SubElement(run_attribute, 'VALUE')
+                run_attribute_val.text = str(file_json[attrib])
 
 
 def _add_experiment_xml(experiment_set_element, process_json):
@@ -110,6 +127,23 @@ def _add_experiment_xml(experiment_set_element, process_json):
             title_element.text = process_core['process_name']
         if _study_ref:
             study_ref_element.set('refname', _study_ref)
+    # TODO: Add additional attributes not in ENA schema; make this a function
+    experiment_attributes = ET.SubElement(experiment_set_element, 'EXPERIMENT_ATTRIBUTES') # HCA metadata not in ENA schema
+    for attrib in process_json:
+        if attrib not in ['process_core', 'schema_type', 'describedBy', 'schema_version', 'instrument_manufacturer_model']:
+            if process_json[attrib] is list:
+                for item in process_json[attrib]:
+                    experiment_attribute = ET.SubElement(experiment_attributes, 'EXPERIMENT_ATTRIBUTE')
+                    experiment_attribute_tag = ET.SubElement(experiment_attribute, 'TAG')
+                    experiment_attribute_tag.text = attrib
+                    experiment_attribute_val = ET.SubElement(experiment_attribute, 'VALUE')
+                    experiment_attribute_val.text = item
+            else:
+                experiment_attribute = ET.SubElement(experiment_attributes, 'EXPERIMENT_ATTRIBUTE')
+                experiment_attribute_tag = ET.SubElement(experiment_attribute, 'TAG')
+                experiment_attribute_tag.text = attrib
+                experiment_attribute_val = ET.SubElement(experiment_attribute, 'VALUE')
+                experiment_attribute_val.text = str(process_json[attrib])
 
 
 def _add_sample_xml(sample_set_element, biomaterial_json):
@@ -126,6 +160,24 @@ def _add_sample_xml(sample_set_element, biomaterial_json):
             title_element.text = biomaterial_core['biomaterial_name']
         if 'ncbi_taxon_id' in biomaterial_core:
             taxon_id_element.text = str(biomaterial_core['ncbi_taxon_id'][0])
+    # TODO: Add additional attributes not in ENA schema; make this a function
+    sample_attributes = ET.SubElement(sample_set_element, 'SAMPLE_ATTRIBUTES') # HCA metadata not in ENA schema
+    for attrib in biomaterial_json:
+        # TODO: Handling for genus_species
+        if attrib not in ['biomaterial_core', 'schema_type', 'describedBy', 'schema_version', 'genus_species']:
+            if biomaterial_json[attrib] is list:
+                for item in biomaterial_json[attrib]:
+                    sample_attribute = ET.SubElement(sample_attributes, 'SAMPLE_ATTRIBUTE')
+                    sample_attribute_tag = ET.SubElement(sample_attribute, 'TAG')
+                    sample_attribute_tag.text = attrib
+                    sample_attribute_val = ET.SubElement(sample_attribute, 'VALUE')
+                    sample_attribute_val.text = item
+            else:
+                sample_attribute = ET.SubElement(sample_attributes, 'SAMPLE_ATTRIBUTE')
+                sample_attribute_tag = ET.SubElement(sample_attribute, 'TAG')
+                sample_attribute_tag.text = attrib
+                sample_attribute_val = ET.SubElement(sample_attribute, 'VALUE')
+                sample_attribute_val.text = str(biomaterial_json[attrib])
 
 def _add_project_xml(project_set_element, project_json):
     project_element = ET.SubElement(project_set_element, 'PROJECT')
@@ -150,6 +202,16 @@ def _add_project_xml(project_set_element, project_json):
     if 'contributors' in project_json:
         for contrib in project_json['contributors']:
             collaborators_element.text = (contrib['contact_name']) # Broken; sets COLLABORATORS to the last entry
+    # TODO: Add additional attributes not in ENA schema; make this a function
+    project_attributes = ET.SubElement(project_element, 'PROJECT_ATTRIBUTES') # HCA metadata not in ENA schema
+    for attrib in project_json:
+        if attrib not in ['contributors', 'project_core', 'schema_type', 'describedBy', 'schema_version']:
+            for item in project_json[attrib]:
+                project_attribute = ET.SubElement(project_attributes, 'PROJECT_ATTRIBUTE')
+                project_attribute_tag = ET.SubElement(project_attribute, 'TAG')
+                project_attribute_tag.text = attrib
+                project_attribute_val = ET.SubElement(project_attribute, 'VALUE')
+                project_attribute_val.text = item
 
 
 def _create_project_set_xml(projects_json):
@@ -157,7 +219,6 @@ def _create_project_set_xml(projects_json):
     _add_project_xml(project_set_element, projects_json)
     project_set_xml = ET.tostring(project_set_element)
     return project_set_xml
-
 
 def _create_sample_set_xml(biomaterials_json):
     sample_set_element = ET.Element('SAMPLE_SET')
