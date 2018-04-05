@@ -201,7 +201,8 @@ def _add_project_xml(project_set_element, project_json):
             description_element.text = project_core['project_description']
     if 'contributors' in project_json:
         for contrib in project_json['contributors']:
-            collaborators_element.text = (contrib['contact_name']) # Broken; sets COLLABORATORS to the last entry
+            collaborator_element = ET.SubElement(collaborators_element, 'COLLABORATOR')
+            collaborator_element.text = contrib['contact_name']
     # TODO: Add additional attributes not in ENA schema; make this a function
     project_attributes = ET.SubElement(project_element, 'PROJECT_ATTRIBUTES') # HCA metadata not in ENA schema
     for attrib in project_json:
