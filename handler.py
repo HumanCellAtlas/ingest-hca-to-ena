@@ -149,12 +149,8 @@ def _add_project_xml(project_set_element, project_json):
         if 'project_description' in project_core:
             description_element.text = project_core['project_description']
     if 'contributors' in project_json:
-        # collabs = [(contrib['contact_name']) for contrib in project_json['contributors']]
         for contrib in project_json['contributors']:
-            collaborators_element.text = (contrib['contact_name'])
-        print(collaborators_element)
-        exit()
-        # collaborators_element.text
+            collaborators_element.text = (contrib['contact_name']) # Broken; sets COLLABORATORS to the last entry
 
 
 def _create_project_set_xml(projects_json):
@@ -166,20 +162,17 @@ def _create_project_set_xml(projects_json):
 
 def _create_sample_set_xml(biomaterials_json):
     sample_set_element = ET.Element('SAMPLE_SET')
-    for biomaterial_json in biomaterials_json:
-        _add_sample_xml(sample_set_element, biomaterial_json)
+    _add_sample_xml(sample_set_element, biomaterials_json)
     sample_set_xml = ET.tostring(sample_set_element)
     return sample_set_xml
 
 
 def _create_experiment_set_xml(processes_json):
     experiment_set_element = ET.Element('EXPERIMENT_SET')
-    for process_json in processes_json:
-        # Only sequencing_process processes need to be made into distinct experiment blocks
-        # Each sequencing_process will need information from associated library_preparation_process
-        # Associated lib_prep_process will have to be identified via links (which currently are incorrect)
-        if process_json['describedBy'].endswith('sequencing_process'):
-            _add_experiment_xml(experiment_set_element, process_json)
+    # TODO: Only sequencing_processes need to be made into distinct experiment blocks
+    # TODO: Each sequencing_process will need information from associated library_preparation_process
+    # TODO: Associated lib_prep_process will have to be identified via links_json
+    _add_experiment_xml(experiment_set_element, processes_json)
     experiment_set_xml = ET.tostring(experiment_set_element)
     return experiment_set_xml
 
@@ -216,10 +209,11 @@ def convert(dataset_json, job_id):
                     project_json = element['content']
                     project_set_xml = _create_project_set_xml(project_json)
                     _output_xml("project", project_set_xml, job_id)
-                    exit()
             if schema_type == 'biomaterial_bundle':
                 biomaterials = element['biomaterials']
                 for biomaterial in biomaterials:
+                    # TODO: The following line hard-codes 'cell_suspension' as the terminal biomaterial,
+                    # TODO: but the terminal biomaterial should be deduced from links in the future.
                     if 'content' in biomaterial and biomaterial['content']['describedBy'].endswith('cell_suspension'):
                         biomaterial_json = biomaterial['content']
                         sample_set_xml = _create_sample_set_xml(biomaterial_json)
@@ -227,7 +221,9 @@ def convert(dataset_json, job_id):
             if schema_type == 'process_bundle':
                 processes = element['processes']
                 for process in processes:
-                    if 'content' in process:
+                    # TODO: The following line hard-codes 'sequencing_process' as the terminal process,
+                    # TODO: but the terminal process should be deduced from links in the future.
+                    if 'content' in process and process['content']['describedBy'].endswith('sequencing_process'):
                         process_json = process['content']
                         experiment_set_xml = _create_experiment_set_xml(process_json)
                         _output_xml("experiment", experiment_set_xml, job_id)
