@@ -45,14 +45,10 @@ def handle_convert(event, context):
 _study_ref = None
 
 
-def _add_run_xml(run_set_element, file_json): # links are in file_json? this is probably wrong
+def _add_run_xml(run_set_element, file_json, links_json): # links are in file_json? this is probably wrong
     if file_json['read_index'] in ('read1'): # read1 is the only required read/file for each run
         run_element = ET.SubElement(run_set_element, 'RUN')
-        # TODO: determine how to link to experiment ref
         experiment_ref_element = ET.SubElement(run_element, 'EXPERIMENT_REF')
-        # if 'process_core' in process_json and process_json['describedBy'].endswith('sequencing_process'):
-        #     process_core = process_json['process_core']
-        #     experiment_ref_element.set('refname', process_core['process_id'])
         data_block_element = ET.SubElement(run_element, 'DATA_BLOCK')
         files_element = ET.SubElement(data_block_element, 'FILES')
         file_element = ET.SubElement(files_element, 'FILE')
@@ -68,10 +64,13 @@ def _add_run_xml(run_set_element, file_json): # links are in file_json? this is 
                 run_element.set('alias', bam_file_name)
                 file_element.set('filename', bam_file_name)
                 # Get sequencing process ID for experiment_ref
-                # for link in links_json:
-                #     if link['destination_id'] == file_core['file_name'] and link['source_type'] == 'sequencing':
-                #         experiment_ref_element.set('refname', link['source_id'])
-                #         # TODO: exit loop
+                for link in links_json:
+                    # TODO: The following 2 lines should be replaced the 2 subsequent commented lines when links are corrected
+                    if link['source_id'] == file_core['file_name'] and link['destination_type'] == 'sequencing':
+                        experiment_ref_element.set('refname', link['destination_ids'][0])
+                    # if link['destination_ids'] == file_core['file_name'] and link['source_type'] == 'sequencing':
+                    #     experiment_ref_element.set('refname', link['source_id'])
+                        break # TODO: confirm this breaks the loop at the appropriate point
 
 
 def _add_experiment_xml(experiment_set_element, process_json):
@@ -91,12 +90,20 @@ def _add_experiment_xml(experiment_set_element, process_json):
     platform_element = ET.SubElement(experiment_element, 'PLATFORM')
     illumina_element = ET.SubElement(platform_element, 'ILLUMINA')
     instrument_model_element = ET.SubElement(illumina_element, 'INSTRUMENT_MODEL')
-    # TODO: check library strategy value
+    # TODO: library strategy = "RNA-seq" is fine for now, suggest adding scRNA-seq to enum for this value
     library_strategy_element.text = "RNA-Seq"
     library_source_element.text = "TRANSCRIPTOMIC SINGLE CELL"
-    # TODO: check library selection value
+    # TODO: library selection: "RANDOM PCR" if primer=random, "PolyA" if primer=poly-dT, "unspecified" if primer is blank
+    if process_json['describedBy'].endswith('library_preparation_process'):
+        if 'primer' in process_json:
+            if process_json['primer'] == "random":
+                library_selection_element.text = "RANDOM PCR"
+            elif process_json['primer'] == "poly-dT":
+                library_selection_element.text = "PolyA"
+        else:
+            library_selection_element.text = "unspecified"
     # library_selection_element.text = "unspecified"
-    library_selection_element.text = "TODO"
+    # library_selection_element.text = "TODO"
     instrument_model_element.text = "unspecified"
     if 'process_core' in process_json:
         process_core = process_json['process_core']
@@ -169,11 +176,9 @@ def _create_experiment_set_xml(processes_json):
 
 
 def _create_run_set_xml(files_json, links_json):
-    # print(links_json)
     run_set_element = ET.Element('RUN_SET')
     for file_json in files_json:
-        print(file_json)
-        _add_run_xml(run_set_element, file_json)
+        _add_run_xml(run_set_element, file_json, links_json)
     run_set_xml = ET.tostring(run_set_element)
     return run_set_xml
 
