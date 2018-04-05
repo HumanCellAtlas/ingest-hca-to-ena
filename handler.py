@@ -46,31 +46,30 @@ _study_ref = None
 
 
 def _add_run_xml(run_set_element, file_json, links_json): # links are in file_json? this is probably wrong
-    if file_json['read_index'] in ('read1'): # read1 is the only required read/file for each run
-        run_element = ET.SubElement(run_set_element, 'RUN')
-        experiment_ref_element = ET.SubElement(run_element, 'EXPERIMENT_REF')
-        data_block_element = ET.SubElement(run_element, 'DATA_BLOCK')
-        files_element = ET.SubElement(data_block_element, 'FILES')
-        file_element = ET.SubElement(files_element, 'FILE')
-        file_element.set('filetype', 'bam')
-        file_element.set('checksum_method', 'MD5')
-        # TODO: create md5 checksum for files
-        file_element.set('checksum', '')
-        if 'file_core' in file_json:
-            file_core = file_json['file_core']
-            if 'file_name' in file_core:
-                # Generate bam file name
-                bam_file_name = re.sub('_R1', '', file_core['file_name'].split('fastq')[0]) + 'bam'
-                run_element.set('alias', bam_file_name)
-                file_element.set('filename', bam_file_name)
-                # Get sequencing process ID for experiment_ref
-                for link in links_json:
-                    # TODO: The following 2 lines should be replaced the 2 subsequent commented lines when links are corrected
-                    if link['source_id'] == file_core['file_name'] and link['destination_type'] == 'sequencing':
-                        experiment_ref_element.set('refname', link['destination_ids'][0])
-                    # if link['destination_ids'] == file_core['file_name'] and link['source_type'] == 'sequencing':
-                    #     experiment_ref_element.set('refname', link['source_id'])
-                        break # TODO: confirm this breaks the loop at the appropriate point
+    run_element = ET.SubElement(run_set_element, 'RUN')
+    experiment_ref_element = ET.SubElement(run_element, 'EXPERIMENT_REF')
+    data_block_element = ET.SubElement(run_element, 'DATA_BLOCK')
+    files_element = ET.SubElement(data_block_element, 'FILES')
+    file_element = ET.SubElement(files_element, 'FILE')
+    file_element.set('filetype', 'bam')
+    file_element.set('checksum_method', 'MD5')
+    # TODO: create md5 checksum for files
+    file_element.set('checksum', '')
+    if 'file_core' in file_json:
+        file_core = file_json['file_core']
+        if 'file_name' in file_core:
+            # Generate bam file name
+            bam_file_name = re.sub('_R1', '', file_core['file_name'].split('fastq')[0]) + 'bam'
+            run_element.set('alias', bam_file_name)
+            file_element.set('filename', bam_file_name)
+            # Get sequencing process ID for experiment_ref
+            for link in links_json:
+                # TODO: The following 2 lines should be replaced the 2 subsequent commented lines when links are corrected
+                if link['source_id'] == file_core['file_name'] and link['destination_type'] == 'sequencing':
+                    experiment_ref_element.set('refname', link['destination_ids'][0])
+                # if link['destination_ids'] == file_core['file_name'] and link['source_type'] == 'sequencing':
+                #     experiment_ref_element.set('refname', link['source_id'])
+                    break # TODO: confirm this breaks the loop at the appropriate point
 
 
 def _add_experiment_xml(experiment_set_element, process_json):
@@ -179,8 +178,11 @@ def _create_experiment_set_xml(processes_json):
 
 def _create_run_set_xml(files_json, links_json):
     run_set_element = ET.Element('RUN_SET')
-    for file_json in files_json:
-        _add_run_xml(run_set_element, file_json, links_json)
+    for file in files_json:
+        # TODO: The following line restricts run creation to only be based on read1 (R1) files
+        # TODO: This is because read1 is the only required file and all other files are collapsed with read1
+        if file['content']['read_index'] == 'read1':
+            _add_run_xml(run_set_element, file['content'], links_json)
     run_set_xml = ET.tostring(run_set_element)
     return run_set_xml
 
@@ -228,12 +230,10 @@ def convert(dataset_json, job_id):
                         experiment_set_xml = _create_experiment_set_xml(process_json)
                         _output_xml("experiment", experiment_set_xml, job_id)
             if schema_type == 'file_bundle':
-                files = element['files']
-                for file in files:
-                    if 'content' in file:
-                        file_json = file['content']
-                        run_set_xml = _create_run_set_xml(file_json, links_json)
-                        _output_xml("run", run_set_xml, job_id)
+                files_json = element['files']
+                if len(files_json) > 0:
+                    run_set_xml = _create_run_set_xml(files_json, links_json)
+                    _output_xml("run", run_set_xml, job_id)
 
 
 def _process_event(event):
