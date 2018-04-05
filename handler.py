@@ -161,7 +161,11 @@ def _create_project_set_xml(projects_json):
 
 def _create_sample_set_xml(biomaterials_json):
     sample_set_element = ET.Element('SAMPLE_SET')
-    _add_sample_xml(sample_set_element, biomaterials_json)
+    for biomaterial in biomaterials_json:
+        # TODO: The following line hard-codes 'cell_suspension' as the terminal biomaterial,
+        # TODO: but the terminal biomaterial should be deduced from links in the future.
+        if biomaterial['content']['describedBy'].endswith('cell_suspension'):
+            _add_sample_xml(sample_set_element, biomaterial['content'])
     sample_set_xml = ET.tostring(sample_set_element)
     return sample_set_xml
 
@@ -212,14 +216,10 @@ def convert(dataset_json, job_id):
                     project_set_xml = _create_project_set_xml(project_json)
                     _output_xml("project", project_set_xml, job_id)
             if schema_type == 'biomaterial_bundle':
-                biomaterials = element['biomaterials']
-                for biomaterial in biomaterials:
-                    # TODO: The following line hard-codes 'cell_suspension' as the terminal biomaterial,
-                    # TODO: but the terminal biomaterial should be deduced from links in the future.
-                    if 'content' in biomaterial and biomaterial['content']['describedBy'].endswith('cell_suspension'):
-                        biomaterial_json = biomaterial['content']
-                        sample_set_xml = _create_sample_set_xml(biomaterial_json)
-                        _output_xml("sample", sample_set_xml, job_id)
+                biomaterials_json = element['biomaterials']
+                if len(biomaterials_json) > 0:
+                    sample_set_xml = _create_sample_set_xml(biomaterials_json)
+                    _output_xml("sample", sample_set_xml, job_id)
             if schema_type == 'process_bundle':
                 processes = element['processes']
                 for process in processes:
@@ -231,7 +231,7 @@ def convert(dataset_json, job_id):
                         _output_xml("experiment", experiment_set_xml, job_id)
             if schema_type == 'file_bundle':
                 files_json = element['files']
-                if len(files_json) > 0:
+                if len(files_json) > 0: # If there are files in the submission
                     run_set_xml = _create_run_set_xml(files_json, links_json)
                     _output_xml("run", run_set_xml, job_id)
 
