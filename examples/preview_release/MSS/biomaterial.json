@@ -1,0 +1,138 @@
+{
+  "biomaterials": [
+    {
+      "content": {
+        "biomaterial_core": {
+          "has_input_biomaterial": "A1-Spl-0-TL5",
+          "ncbi_taxon_id": [
+            9606
+          ],
+          "biomaterial_id": "A1-Spl-0-TL5_cells",
+          "biomaterial_name": "cells from fresh spleen"
+        },
+        "genus_species": [
+          {
+            "text": "Homo sapiens",
+            "ontology": "NCBITaxon:9606"
+          }
+        ],
+        "describedBy": "https://schema.humancellatlas.org/type/biomaterial/5.1.0/cell_suspension",
+        "total_estimated_cells": 39300000,
+        "schema_type": "biomaterial"
+      },
+      "hca_ingest": {
+        "accession": "",
+        "submissionDate": "2018-03-27T13:10:38.189Z",
+        "updateDate": "2018-03-27T13:10:43.316Z",
+        "document_id": "a86b1fda-bb1d-4ef8-87d9-392517d4a937"
+      }
+    },
+    {
+      "content": {
+        "state_of_specimen": {
+          "ischemic_time": 7200,
+          "gross_image": [
+            "284C_IMAGE_spleen_annotated.jpg"
+          ],
+          "postmortem_interval": 19800,
+          "ischemic_temperature": "warm",
+          "microscopic_description": "dead cells are quite faint on microscope at LMB"
+        },
+        "organ": {
+          "text": "spleen",
+          "ontology": "UBERON:0002106"
+        },
+        "genus_species": [
+          {
+            "text": "Homo sapiens",
+            "ontology": "NCBITaxon:9606"
+          }
+        ],
+        "schema_type": "biomaterial",
+        "biomaterial_core": {
+          "biomaterial_description": "fresh spleen",
+          "has_input_biomaterial": "284C-A1",
+          "biomaterial_name": "284C_spleen_fresh",
+          "supplementary_files": [
+            "284C_IMAGE_spleen_annotated.jpeg"
+          ],
+          "ncbi_taxon_id": [
+            9606
+          ],
+          "biomaterial_id": "A1-Spl-0-TL5"
+        },
+        "describedBy": "https://schema.humancellatlas.org/type/biomaterial/5.1.0/specimen_from_organism"
+      },
+      "hca_ingest": {
+        "accession": "",
+        "submissionDate": "2018-03-27T13:10:38.291Z",
+        "updateDate": "2018-03-27T13:10:43.420Z",
+        "document_id": "d231b8f3-8fa3-4f3b-a8e5-66eca6228ae7"
+      }
+    },
+    {
+      "content": {
+        "is_living": false,
+        "death": {
+          "cause_of_death": "Hypoxic brain damage",
+          "cold_perfused": false
+        },
+        "biological_sex": "male",
+        "weight": "80-85",
+        "disease": [
+          {
+            "text": "normal",
+            "ontology": "PATO:0000461"
+          }
+        ],
+        "genus_species": [
+          {
+            "text": "Homo sapiens",
+            "ontology": "NCBITaxon:9606"
+          }
+        ],
+        "height_unit": {
+          "text": "meter",
+          "ontology": "UO:0000008"
+        },
+        "height": "1.75-1.8",
+        "describedBy": "https://schema.humancellatlas.org/type/biomaterial/5.1.0/donor_organism",
+        "organism_age": "55-60",
+        "schema_type": "biomaterial",
+        "biomaterial_core": {
+          "biomaterial_id": "284C-A1",
+          "ncbi_taxon_id": [
+            9606
+          ],
+          "biomaterial_description": "Spleen",
+          "biomaterial_name": "284C-spleen"
+        },
+        "medical_history": {
+          "alcohol_history": "3-6 units/day",
+          "smoking_history": "Smoker, 20/day for 25 years, stopped 2000"
+        },
+        "organism_age_unit": {
+          "text": "year",
+          "ontology": "UO:0000036"
+        },
+        "development_stage": {
+          "text": "adult",
+          "ontology": "EFO:0001272"
+        },
+        "weight_unit": {
+          "text": "kg",
+          "ontology": "UO:0000009"
+        }
+      },
+      "hca_ingest": {
+        "accession": "",
+        "submissionDate": "2018-03-27T13:10:38.212Z",
+        "updateDate": "2018-03-27T13:10:46.762Z",
+        "document_id": "9a7acc6d-8352-497e-b162-5e63b380366f"
+      }
+    }
+  ],
+  "describedBy": "https://schema.humancellatlas.org/bundle/5.1.0/biomaterial",
+  "schema_version": "5.1.0",
+  "schema_type": "biomaterial_bundle"
+}

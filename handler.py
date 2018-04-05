@@ -93,18 +93,16 @@ def _add_experiment_xml(experiment_set_element, process_json):
     # TODO: library strategy = "RNA-seq" is fine for now, suggest adding scRNA-seq to enum for this value
     library_strategy_element.text = "RNA-Seq"
     library_source_element.text = "TRANSCRIPTOMIC SINGLE CELL"
-    # TODO: library selection: "RANDOM PCR" if primer=random, "PolyA" if primer=poly-dT, "unspecified" if primer is blank
-    if process_json['describedBy'].endswith('library_preparation_process'):
-        if 'primer' in process_json:
-            if process_json['primer'] == "random":
-                library_selection_element.text = "RANDOM PCR"
-            elif process_json['primer'] == "poly-dT":
-                library_selection_element.text = "PolyA"
-        else:
-            library_selection_element.text = "unspecified"
-    # library_selection_element.text = "unspecified"
-    # library_selection_element.text = "TODO"
-    instrument_model_element.text = "unspecified"
+    # TODO: This information is found in library_preparation_process element
+    # library selection: "RANDOM PCR" if primer=random, "PolyA" if primer=poly-dT, "unspecified" if primer is blank
+    if 'primer' in process_json:
+        if process_json['primer'] == "random":
+            library_selection_element.text = "RANDOM PCR"
+        elif process_json['primer'] == "poly-dT":
+            library_selection_element.text = "PolyA"
+    else:
+        library_selection_element.text = "unspecified"
+    instrument_model_element.text = process_json['instrument_manufacturer_model']['text']
     if 'process_core' in process_json:
         process_core = process_json['process_core']
         if 'process_id' in process_core:
@@ -135,6 +133,7 @@ def _add_project_xml(project_set_element, project_json):
     name_element = ET.SubElement(project_element, 'NAME')
     title_element = ET.SubElement(project_element, 'TITLE')
     description_element = ET.SubElement(project_element, 'DESCRIPTION')
+    collaborators_element = ET.SubElement(project_element, 'COLLABORATORS')
     submission_project_element = ET.SubElement(project_element, 'SUBMISSION_PROJECT')
     ET.SubElement(submission_project_element, 'SEQUENCING_PROJECT')
     if 'project_core' in project_json:
@@ -170,7 +169,11 @@ def _create_sample_set_xml(biomaterials_json):
 def _create_experiment_set_xml(processes_json):
     experiment_set_element = ET.Element('EXPERIMENT_SET')
     for process_json in processes_json:
-        _add_experiment_xml(experiment_set_element, process_json)
+        # Only sequencing_process processes need to be made into distinct experiment blocks
+        # Each sequencing_process will need information from associated library_preparation_process
+        # Associated lib_prep_process will have to be identified via links (which currently are incorrect)
+        if process_json['describedBy'].endswith('sequencing_process'):
+            _add_experiment_xml(experiment_set_element, process_json)
     experiment_set_xml = ET.tostring(experiment_set_element)
     return experiment_set_xml
 
@@ -198,22 +201,22 @@ def convert(dataset_json, job_id):
     for element in dataset_json:
         if 'schema_type' in element:
             schema_type = element['schema_type']
-            if schema_type == 'project':
+            if schema_type == 'project_bundle':
                 if 'content' in element:
                     project_json = element['content']
                     project_set_xml = _create_project_set_xml(project_json)
                     _output_xml("project", project_set_xml, job_id)
-            if schema_type == 'biomaterial':
+            if schema_type == 'biomaterial_bundle':
                 if 'content' in element:
                     biomaterial_json = element['content']
                     sample_set_xml = _create_sample_set_xml(biomaterial_json)
                     _output_xml("sample", sample_set_xml, job_id)
-            if schema_type == 'process':
+            if schema_type == 'process_bundle':
                 if 'content' in element:
                     process_json = element['content']
                     experiment_set_xml = _create_experiment_set_xml(process_json)
                     _output_xml("experiment", experiment_set_xml, job_id)
-            if schema_type == 'file':
+            if schema_type == 'file_bundle':
                 if 'content' in element:
                     file_json = element['content']
                     if 'links' in element:

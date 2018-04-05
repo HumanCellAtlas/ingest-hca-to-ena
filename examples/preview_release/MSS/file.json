@@ -1,0 +1,199 @@
+{
+  "files": [
+    {
+      "content": {
+        "file_core": {
+          "file_name": "HCATisStabAug177078016_S1_L001_I1_001.fastq.gz",
+          "file_format": "fastq.gz"
+        },
+        "lane_index": 1,
+        "read_index": "index1",
+        "describedBy": "https://schema.humancellatlas.org/type/file/5.1.0/sequence_file",
+        "schema_type": "file"
+      },
+      "hca_ingest": {
+        "submissionDate": "2018-03-27T13:10:38.480Z",
+        "document_id": "49fddace-4c59-41c1-8930-0707460132d7"
+      }
+    },
+    {
+      "content": {
+        "file_core": {
+          "file_name": "HCATisStabAug177078016_S1_L001_R1_001.fastq.gz",
+          "file_format": "fastq.gz"
+        },
+        "lane_index": 1,
+        "read_index": "read1",
+        "describedBy": "https://schema.humancellatlas.org/type/file/5.1.0/sequence_file",
+        "schema_type": "file"
+      },
+      "hca_ingest": {
+        "submissionDate": "2018-03-27T13:10:38.490Z",
+        "document_id": "771d9bcb-a5ff-43b5-b3e8-e738cc4c05bf"
+      }
+    },
+    {
+      "content": {
+        "file_core": {
+          "file_name": "HCATisStabAug177078016_S1_L001_R2_001.fastq.gz",
+          "file_format": "fastq.gz"
+        },
+        "lane_index": 1,
+        "read_index": "read2",
+        "describedBy": "https://schema.humancellatlas.org/type/file/5.1.0/sequence_file",
+        "schema_type": "file"
+      },
+      "hca_ingest": {
+        "submissionDate": "2018-03-27T13:10:38.502Z",
+        "document_id": "8ebfd02e-2a74-4367-80db-48082f331625"
+      }
+    },
+    {
+      "content": {
+        "file_core": {
+          "file_name": "HCATisStabAug177078016_S2_L001_I1_001.fastq.gz",
+          "file_format": "fastq.gz"
+        },
+        "lane_index": 1,
+        "read_index": "index1",
+        "describedBy": "https://schema.humancellatlas.org/type/file/5.1.0/sequence_file",
+        "schema_type": "file"
+      },
+      "hca_ingest": {
+        "submissionDate": "2018-03-27T13:10:38.515Z",
+        "document_id": "fea5cc65-6d94-4d1e-a807-ec248f79b83d"
+      }
+    },
+    {
+      "content": {
+        "file_core": {
+          "file_name": "HCATisStabAug177078016_S2_L001_R1_001.fastq.gz",
+          "file_format": "fastq.gz"
+        },
+        "lane_index": 1,
+        "read_index": "read1",
+        "describedBy": "https://schema.humancellatlas.org/type/file/5.1.0/sequence_file",
+        "schema_type": "file"
+      },
+      "hca_ingest": {
+        "submissionDate": "2018-03-27T13:10:38.524Z",
+        "document_id": "cee5b925-919c-4c77-8ea2-be51a1728e2b"
+      }
+    },
+    {
+      "content": {
+        "file_core": {
+          "file_name": "HCATisStabAug177078016_S2_L001_R2_001.fastq.gz",
+          "file_format": "fastq.gz"
+        },
+        "lane_index": 1,
+        "read_index": "read2",
+        "describedBy": "https://schema.humancellatlas.org/type/file/5.1.0/sequence_file",
+        "schema_type": "file"
+      },
+      "hca_ingest": {
+        "submissionDate": "2018-03-27T13:10:38.534Z",
+        "document_id": "c548066c-9994-415a-98cb-3df2933937ff"
+      }
+    },
+    {
+      "content": {
+        "file_core": {
+          "file_name": "HCATisStabAug177078016_S3_L001_I1_001.fastq.gz",
+          "file_format": "fastq.gz"
+        },
+        "lane_index": 1,
+        "read_index": "index1",
+        "describedBy": "https://schema.humancellatlas.org/type/file/5.1.0/sequence_file",
+        "schema_type": "file"
+      },
+      "hca_ingest": {
+        "submissionDate": "2018-03-27T13:10:38.545Z",
+        "document_id": "b7d8d43c-bee6-48eb-bb36-0c07701c47b5"
+      }
+    },
+    {
+      "content": {
+        "file_core": {
+          "file_name": "HCATisStabAug177078016_S3_L001_R1_001.fastq.gz",
+          "file_format": "fastq.gz"
+        },
+        "lane_index": 1,
+        "read_index": "read1",
+        "describedBy": "https://schema.humancellatlas.org/type/file/5.1.0/sequence_file",
+        "schema_type": "file"
+      },
+      "hca_ingest": {
+        "submissionDate": "2018-03-27T13:10:38.555Z",
+        "document_id": "6bc5b7ef-68f8-445d-8460-f04180c4fae1"
+      }
+    },
+    {
+      "content": {
+        "file_core": {
+          "file_name": "HCATisStabAug177078016_S3_L001_R2_001.fastq.gz",
+          "file_format": "fastq.gz"
+        },
+        "lane_index": 1,
+        "read_index": "read2",
+        "describedBy": "https://schema.humancellatlas.org/type/file/5.1.0/sequence_file",
+        "schema_type": "file"
+      },
+      "hca_ingest": {
+        "submissionDate": "2018-03-27T13:10:38.564Z",
+        "document_id": "17add91c-4063-4684-859d-d739baa4b9bb"
+      }
+    },
+    {
+      "content": {
+        "file_core": {
+          "file_name": "HCATisStabAug177078016_S4_L001_I1_001.fastq.gz",
+          "file_format": "fastq.gz"
+        },
+        "lane_index": 1,
+        "read_index": "index1",
+        "describedBy": "https://schema.humancellatlas.org/type/file/5.1.0/sequence_file",
+        "schema_type": "file"
+      },
+      "hca_ingest": {
+        "submissionDate": "2018-03-27T13:10:38.575Z",
+        "document_id": "b7554cb7-dc5a-4b07-9c7a-c04466d30576"
+      }
+    },
+    {
+      "content": {
+        "file_core": {
+          "file_name": "HCATisStabAug177078016_S4_L001_R1_001.fastq.gz",
+          "file_format": "fastq.gz"
+        },
+        "lane_index": 1,
+        "read_index": "read1",
+        "describedBy": "https://schema.humancellatlas.org/type/file/5.1.0/sequence_file",
+        "schema_type": "file"
+      },
+      "hca_ingest": {
+        "submissionDate": "2018-03-27T13:10:38.587Z",
+        "document_id": "5239e70b-7d8d-4285-971f-9a156441c2f2"
+      }
+    },
+    {
+      "content": {
+        "file_core": {
+          "file_name": "HCATisStabAug177078016_S4_L001_R2_001.fastq.gz",
+          "file_format": "fastq.gz"
+        },
+        "lane_index": 1,
+        "read_index": "read2",
+        "describedBy": "https://schema.humancellatlas.org/type/file/5.1.0/sequence_file",
+        "schema_type": "file"
+      },
+      "hca_ingest": {
+        "submissionDate": "2018-03-27T13:10:38.597Z",
+        "document_id": "024c5cb6-f473-40c9-9eb3-da08caf3180e"
+      }
+    }
+  ],
+  "describedBy": "https://schema.humancellatlas.org/bundle/1.0.0/file",
+  "schema_version": "1.0.0",
+  "schema_type": "file_bundle"
+}

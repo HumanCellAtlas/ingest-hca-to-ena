@@ -404,7 +404,8 @@
     "library_construction_approach" : "10x_v2",
     "end_bias" : "3 prime tag",
     "strand" : "second"
-  } ],
+  }
+  ],
   "links" : [ {
     "source_type" : "process",
     "source_id" : "library_preparation_process_1",

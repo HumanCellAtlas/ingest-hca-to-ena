@@ -11,7 +11,8 @@ from handler import zipdir
 
 
 def validate_output(schema_file_name, xml_file_name, job_id):
-    with open("/tmp/" + job_id + "/" + xml_file_name, 'r') as xml_file:
+    # with open("/tmp/" + job_id + "/" + xml_file_name, 'r') as xml_file:
+    with open("examples/tmp/" + job_id + "/" + xml_file_name, 'r') as xml_file:
         xml_to_check = xml_file.read()
     with open("xml_schemas/" + schema_file_name) as xsd_file:
         xml_schema_doc = etree.parse(xsd_file)
