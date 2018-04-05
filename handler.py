@@ -172,10 +172,14 @@ def _create_sample_set_xml(biomaterials_json):
 
 def _create_experiment_set_xml(processes_json):
     experiment_set_element = ET.Element('EXPERIMENT_SET')
-    # TODO: Only sequencing_processes need to be made into distinct experiment blocks
-    # TODO: Each sequencing_process will need information from associated library_preparation_process
-    # TODO: Associated lib_prep_process will have to be identified via links_json
-    _add_experiment_xml(experiment_set_element, processes_json)
+    for process in processes_json:
+        # TODO: The following line hard-codes 'sequencing_process' as the terminal process,
+        # TODO: but the terminal process should be deduced from links in the future.
+        # TODO: Only sequencing_processes need to be made into distinct experiment blocks
+        # TODO: Each sequencing_process will need information from associated library_preparation_process
+        # TODO: Associated lib_prep_process will have to be identified via links_json
+        if process['content']['describedBy'].endswith('sequencing_process'):
+            _add_experiment_xml(experiment_set_element, process['content'])
     experiment_set_xml = ET.tostring(experiment_set_element)
     return experiment_set_xml
 
@@ -221,14 +225,10 @@ def convert(dataset_json, job_id):
                     sample_set_xml = _create_sample_set_xml(biomaterials_json)
                     _output_xml("sample", sample_set_xml, job_id)
             if schema_type == 'process_bundle':
-                processes = element['processes']
-                for process in processes:
-                    # TODO: The following line hard-codes 'sequencing_process' as the terminal process,
-                    # TODO: but the terminal process should be deduced from links in the future.
-                    if 'content' in process and process['content']['describedBy'].endswith('sequencing_process'):
-                        process_json = process['content']
-                        experiment_set_xml = _create_experiment_set_xml(process_json)
-                        _output_xml("experiment", experiment_set_xml, job_id)
+                processes_json = element['processes']
+                if len(processes_json) > 0:
+                    experiment_set_xml = _create_experiment_set_xml(processes_json)
+                    _output_xml("experiment", experiment_set_xml, job_id)
             if schema_type == 'file_bundle':
                 files_json = element['files']
                 if len(files_json) > 0: # If there are files in the submission
