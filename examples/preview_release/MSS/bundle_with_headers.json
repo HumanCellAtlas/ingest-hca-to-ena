@@ -1,5 +1,5 @@
 [
-  {
+  "project_json" : {
     "content": {
       "contributors": [
         {
@@ -105,7 +105,7 @@
     "schema_version": "5.1.0",
     "schema_type": "project_bundle"
   },
-  {
+  "biomaterial_json": {
     "biomaterials": [
       {
         "content": {
@@ -243,7 +243,7 @@
     "schema_version": "5.1.0",
     "schema_type": "biomaterial_bundle"
   },
-  {
+  "process_json": {
     "processes": [
       {
         "content": {
@@ -334,7 +334,7 @@
     "schema_version": "5.2.1",
     "schema_type": "process_bundle"
   },
-  {
+  "protocol_json": {
     "protocols": [
       {
         "content": {
@@ -363,7 +363,7 @@
     "schema_version": "5.1.0",
     "schema_type": "protocol_bundle"
   },
-  {
+  "file_json": {
     "files": [
       {
         "content": {
@@ -562,7 +562,7 @@
     "schema_version": "1.0.0",
     "schema_type": "file_bundle"
   },
-  {
+  "links_json": {
     "links": [
       {
         "source_id": "d231b8f3-8fa3-4f3b-a8e5-66eca6228ae7",

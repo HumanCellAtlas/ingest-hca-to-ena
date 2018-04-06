@@ -45,6 +45,51 @@ def handle_convert(event, context):
 _study_ref = None
 
 
+def set_attributes(attributes, entity_json, attribute_type, ignore_fields):
+    # print('attribute type: %s' % attribute_type)
+    for attrib in entity_json:
+        # print('\tattribute: %s' % attrib)
+        if attrib not in ignore_fields:
+            # print('\tvalue: %s' % entity_json[attrib])
+            # print('\ttype: %s' % type(entity_json[attrib]))
+            if isinstance(entity_json[attrib], list):
+                # print('\t%s is list' % attrib)
+                if not isinstance(entity_json[attrib][0], dict):
+                    for item in entity_json[attrib]:
+                        attribute = ET.SubElement(attributes, attribute_type)
+                        attribute_tag = ET.SubElement(attribute, 'TAG')
+                        attribute_tag.text = attrib
+                        attribute_val = ET.SubElement(attribute, 'VALUE')
+                        attribute_val.text = item
+                elif 'text' in entity_json[attrib][0].keys() or 'ontology' in entity_json[attrib][0].keys():
+                    # print('\t%s is an ontology' % attrib)
+                    ontology_dict = entity_json[attrib][0]
+                    # print('\tontolgoy type: %s' % type(ontology_dict))
+                    for key, value in ontology_dict.items():
+                        attribute = ET.SubElement(attributes, attribute_type)
+                        attribute_tag = ET.SubElement(attribute, 'TAG')
+                        attribute_tag.text = attrib + '.' + key
+                        attribute_val = ET.SubElement(attribute, 'VALUE')
+                        attribute_val.text = value
+            elif isinstance(entity_json[attrib], dict): # Ontology field w/o ontology term, only text term
+                if 'text' in entity_json[attrib].keys() or 'ontology' in entity_json[attrib].keys():
+                    ontology_dict = entity_json[attrib]
+                    for key, value in ontology_dict.items():
+                        attribute = ET.SubElement(attributes, attribute_type)
+                        attribute_tag = ET.SubElement(attribute, 'TAG')
+                        attribute_tag.text = attrib + '.' + key
+                        attribute_val = ET.SubElement(attribute, 'VALUE')
+                        attribute_val.text = value
+            else:
+                # print('\t%s is not list' % attrib)
+                attribute = ET.SubElement(attributes, attribute_type)
+                attribute_tag = ET.SubElement(attribute, 'TAG')
+                attribute_tag.text = attrib
+                attribute_val = ET.SubElement(attribute, 'VALUE')
+                attribute_val.text = str(entity_json[attrib])
+    return
+
+
 def _add_run_xml(run_set_element, file_json, ingest_json, links_json): # links are in file_json? this is probably wrong
     run_element = ET.SubElement(run_set_element, 'RUN')
     experiment_ref_element = ET.SubElement(run_element, 'EXPERIMENT_REF')
@@ -68,23 +113,10 @@ def _add_run_xml(run_set_element, file_json, ingest_json, links_json): # links a
                 if link['destination_id'] == ingest_json['document_id'] and link['source_type'] == 'sequencing_process':
                     experiment_ref_element.set('refname', link['source_id']) # This is a UUID now
                     break # TODO: confirm this breaks the loop at the appropriate point
-    # TODO: Add additional attributes not in ENA schema; make this a function
+    # Add additional attributes not in ENA schema
     run_attributes = ET.SubElement(run_element, 'RUN_ATTRIBUTES') # HCA metadata not in ENA schema
-    for attrib in file_json:
-        if attrib not in ['file_core', 'schema_type', 'describedBy', 'schema_version', 'read_index']:
-            if file_json[attrib] is list:
-                for item in file_json[attrib]:
-                    run_attribute = ET.SubElement(run_attributes, 'RUN_ATTRIBUTE')
-                    run_attribute_tag = ET.SubElement(run_attribute, 'TAG')
-                    run_attribute_tag.text = attrib
-                    run_attribute_val = ET.SubElement(run_attribute, 'VALUE')
-                    run_attribute_val.text = item
-            else:
-                run_attribute = ET.SubElement(run_attributes, 'RUN_ATTRIBUTE')
-                run_attribute_tag = ET.SubElement(run_attribute, 'TAG')
-                run_attribute_tag.text = attrib
-                run_attribute_val = ET.SubElement(run_attribute, 'VALUE')
-                run_attribute_val.text = str(file_json[attrib])
+    set_attributes(run_attributes, file_json, 'RUN_ATTRIBUTE',
+                   ['file_core', 'schema_type', 'describedBy', 'schema_version', 'read_index', 'read_length'])
 
 
 def _add_experiment_xml(experiment_set_element, process_json, ingest_json):
@@ -92,15 +124,14 @@ def _add_experiment_xml(experiment_set_element, process_json, ingest_json):
     title_element = ET.SubElement(experiment_element, 'TITLE')
     study_ref_element = ET.SubElement(experiment_element, 'STUDY_REF')
     design_element = ET.SubElement(experiment_element, 'DESIGN')
-    # design_description_element = ET.SubElement(design_element, 'DESIGN_DESCRIPTION')
-    # TODO: determine and add sample refname
-    # sample_descriptor_element = ET.SubElement(design_element, 'SAMPLE_DESCRIPTOR')
+    design_description_element = ET.SubElement(design_element, 'DESIGN_DESCRIPTION')
+    sample_descriptor_element = ET.SubElement(design_element, 'SAMPLE_DESCRIPTOR')
     library_descriptor_element = ET.SubElement(design_element, 'LIBRARY_DESCRIPTOR')
     library_strategy_element = ET.SubElement(library_descriptor_element, 'LIBRARY_STRATEGY')
     library_source_element = ET.SubElement(library_descriptor_element, 'LIBRARY_SOURCE')
     library_selection_element = ET.SubElement(library_descriptor_element, 'LIBRARY_SELECTION')
     library_layout_element = ET.SubElement(library_descriptor_element, 'LIBRARY_LAYOUT')
-    # single_element = ET.SubElement(library_layout_element, 'SINGLE')
+    single_element = ET.SubElement(library_layout_element, 'SINGLE')
     platform_element = ET.SubElement(experiment_element, 'PLATFORM')
     illumina_element = ET.SubElement(platform_element, 'ILLUMINA')
     instrument_model_element = ET.SubElement(illumina_element, 'INSTRUMENT_MODEL')
@@ -125,23 +156,10 @@ def _add_experiment_xml(experiment_set_element, process_json, ingest_json):
             title_element.text = process_core['process_name']
         if _study_ref:
             study_ref_element.set('refname', _study_ref)
-    # TODO: Add additional attributes not in ENA schema; make this a function
+    # Add additional attributes not in ENA schema
     experiment_attributes = ET.SubElement(experiment_element, 'EXPERIMENT_ATTRIBUTES') # HCA metadata not in ENA schema
-    for attrib in process_json:
-        if attrib not in ['process_core', 'schema_type', 'describedBy', 'schema_version', 'instrument_manufacturer_model']:
-            if process_json[attrib] is list:
-                for item in process_json[attrib]:
-                    experiment_attribute = ET.SubElement(experiment_attributes, 'EXPERIMENT_ATTRIBUTE')
-                    experiment_attribute_tag = ET.SubElement(experiment_attribute, 'TAG')
-                    experiment_attribute_tag.text = attrib
-                    experiment_attribute_val = ET.SubElement(experiment_attribute, 'VALUE')
-                    experiment_attribute_val.text = item
-            else:
-                experiment_attribute = ET.SubElement(experiment_attributes, 'EXPERIMENT_ATTRIBUTE')
-                experiment_attribute_tag = ET.SubElement(experiment_attribute, 'TAG')
-                experiment_attribute_tag.text = attrib
-                experiment_attribute_val = ET.SubElement(experiment_attribute, 'VALUE')
-                experiment_attribute_val.text = str(process_json[attrib])
+    set_attributes(experiment_attributes, process_json, 'EXPERIMENT_ATTRIBUTE',
+                   ['process_core', 'schema_type', 'describedBy', 'schema_version', 'instrument_manufacturer_model'])
 
 
 def _add_sample_xml(sample_set_element, biomaterial_json):
@@ -157,24 +175,12 @@ def _add_sample_xml(sample_set_element, biomaterial_json):
             title_element.text = biomaterial_core['biomaterial_name']
         if 'ncbi_taxon_id' in biomaterial_core:
             taxon_id_element.text = str(biomaterial_core['ncbi_taxon_id'][0])
-    # TODO: Add additional attributes not in ENA schema; make this a function
+    # Add additional attributes not in ENA schema
     sample_attributes = ET.SubElement(sample_element, 'SAMPLE_ATTRIBUTES') # HCA metadata not in ENA schema
-    for attrib in biomaterial_json:
-        # TODO: Handling for genus_species
-        if attrib not in ['biomaterial_core', 'schema_type', 'describedBy', 'schema_version', 'genus_species']:
-            if biomaterial_json[attrib] is list:
-                for item in biomaterial_json[attrib]:
-                    sample_attribute = ET.SubElement(sample_attributes, 'SAMPLE_ATTRIBUTE')
-                    sample_attribute_tag = ET.SubElement(sample_attribute, 'TAG')
-                    sample_attribute_tag.text = attrib
-                    sample_attribute_val = ET.SubElement(sample_attribute, 'VALUE')
-                    sample_attribute_val.text = item
-            else:
-                sample_attribute = ET.SubElement(sample_attributes, 'SAMPLE_ATTRIBUTE')
-                sample_attribute_tag = ET.SubElement(sample_attribute, 'TAG')
-                sample_attribute_tag.text = attrib
-                sample_attribute_val = ET.SubElement(sample_attribute, 'VALUE')
-                sample_attribute_val.text = str(biomaterial_json[attrib])
+    # TODO: Handling for genus_species
+    set_attributes(sample_attributes, biomaterial_json, 'SAMPLE_ATTRIBUTE',
+                   ['biomaterial_core', 'schema_type', 'describedBy', 'schema_version'])
+
 
 def _add_project_xml(project_set_element, project_json):
     project_element = ET.SubElement(project_set_element, 'PROJECT')
@@ -200,16 +206,10 @@ def _add_project_xml(project_set_element, project_json):
         for contrib in project_json['contributors']:
             collaborator_element = ET.SubElement(collaborators_element, 'COLLABORATOR')
             collaborator_element.text = contrib['contact_name']
-    # TODO: Add additional attributes not in ENA schema; make this a function
-    project_attributes = ET.SubElement(project_element, 'PROJECT_ATTRIBUTES') # HCA metadata not in ENA schema
-    for attrib in project_json:
-        if attrib not in ['contributors', 'project_core', 'schema_type', 'describedBy', 'schema_version']:
-            for item in project_json[attrib]:
-                project_attribute = ET.SubElement(project_attributes, 'PROJECT_ATTRIBUTE')
-                project_attribute_tag = ET.SubElement(project_attribute, 'TAG')
-                project_attribute_tag.text = attrib
-                project_attribute_val = ET.SubElement(project_attribute, 'VALUE')
-                project_attribute_val.text = item
+    # Add additional attributes not in ENA schema
+    project_attributes = ET.SubElement(project_element, 'PROJECT_ATTRIBUTES')
+    set_attributes(project_attributes, project_json, 'PROJECT_ATTRIBUTE',
+                   ['contributors', 'project_core', 'schema_type', 'describedBy', 'schema_version', 'publications'])
 
 
 def _create_project_set_xml(projects_json):
@@ -229,15 +229,38 @@ def _create_sample_set_xml(biomaterials_json):
     return sample_set_xml
 
 
-def _create_experiment_set_xml(processes_json):
+def _create_experiment_set_xml(processes_json, links_json):
     experiment_set_element = ET.Element('EXPERIMENT_SET')
+    # processes_json is list, each item is a dict
+    # links_json is list, each item is a dict
     for process in processes_json:
+        print('process: %s' % process['content']['describedBy'])
         # TODO: The following line hard-codes 'sequencing_process' as the terminal process,
         # TODO: but the terminal process should be deduced from links in the future.
-        # TODO: Only sequencing_processes need to be made into distinct experiment blocks
-        # TODO: Each sequencing_process will need information from associated library_preparation_process
-        # TODO: Associated lib_prep_process will have to be identified via links_json
+        # TODO: Only sequencing_processes need to be made into distinct experiment blocks,
+        # TODO: but each sequencing_process will need information from associated upstream processes.
         if process['content']['describedBy'].endswith('sequencing_process'):
+            # Get all upstream processes that went into this sequencing process
+            print('seq process:\n%s' % process)
+            for link in links_json:
+                sample_source_ids = []
+                if link['destination_id'] == process['hca_ingest']['document_id'] and link['source_type'] == 'biomaterial':
+                    print('biomaterial link:\n%s' % link)
+                    sample_source_ids.append(link['source_id'])
+                    # print(link['source_id'])
+            print(sample_source_ids)
+            for link in links_json:
+                process_ids = []
+                if link['source_id'] in sample_source_ids and link['destination_type'] is 'library_preparation_process':
+                    print('link: %s' % link)
+                    process_ids.append(link['destination_id'])
+            for processes in processes_json:
+                upstream_processes = []
+                if processes['hca_ingest']['document_id'] in process_ids:
+                    print('upstream processes: %s' % processes)
+                    upstream_processes.append(processes)
+            print(processes)
+            exit()
             _add_experiment_xml(experiment_set_element, process['content'], process['hca_ingest'])
     experiment_set_xml = ET.tostring(experiment_set_element)
     return experiment_set_xml
@@ -286,7 +309,7 @@ def convert(dataset_json, job_id):
             if schema_type == 'process_bundle':
                 processes_json = element['processes']
                 if len(processes_json) > 0:
-                    experiment_set_xml = _create_experiment_set_xml(processes_json)
+                    experiment_set_xml = _create_experiment_set_xml(processes_json, links_json)
                     _output_xml("experiment", experiment_set_xml, job_id)
             if schema_type == 'file_bundle':
                 files_json = element['files']
