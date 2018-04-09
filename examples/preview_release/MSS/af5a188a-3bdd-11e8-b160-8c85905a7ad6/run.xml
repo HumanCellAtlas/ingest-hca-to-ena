@@ -1,52 +1,10 @@
 <?xml version="1.0" ?>
 <RUN_SET>
-   <RUN alias="HCATisStabAug177078016_S1_L001_001.bam">
+   <RUN alias="HCATisStabAug177078016_L001_001.bam">
       <EXPERIMENT_REF refname="0c6332ef-633b-403b-b4ed-c61ccacf87c8"/>
       <DATA_BLOCK>
          <FILES>
-            <FILE checksum="" checksum_method="MD5" filename="HCATisStabAug177078016_S1_L001_001.bam" filetype="bam"/>
-         </FILES>
-      </DATA_BLOCK>
-      <RUN_ATTRIBUTES>
-         <RUN_ATTRIBUTE>
-            <TAG>lane_index</TAG>
-            <VALUE>1</VALUE>
-         </RUN_ATTRIBUTE>
-      </RUN_ATTRIBUTES>
-   </RUN>
-   <RUN alias="HCATisStabAug177078016_S2_L001_001.bam">
-      <EXPERIMENT_REF refname="0c6332ef-633b-403b-b4ed-c61ccacf87c8"/>
-      <DATA_BLOCK>
-         <FILES>
-            <FILE checksum="" checksum_method="MD5" filename="HCATisStabAug177078016_S2_L001_001.bam" filetype="bam"/>
-         </FILES>
-      </DATA_BLOCK>
-      <RUN_ATTRIBUTES>
-         <RUN_ATTRIBUTE>
-            <TAG>lane_index</TAG>
-            <VALUE>1</VALUE>
-         </RUN_ATTRIBUTE>
-      </RUN_ATTRIBUTES>
-   </RUN>
-   <RUN alias="HCATisStabAug177078016_S3_L001_001.bam">
-      <EXPERIMENT_REF refname="0c6332ef-633b-403b-b4ed-c61ccacf87c8"/>
-      <DATA_BLOCK>
-         <FILES>
-            <FILE checksum="" checksum_method="MD5" filename="HCATisStabAug177078016_S3_L001_001.bam" filetype="bam"/>
-         </FILES>
-      </DATA_BLOCK>
-      <RUN_ATTRIBUTES>
-         <RUN_ATTRIBUTE>
-            <TAG>lane_index</TAG>
-            <VALUE>1</VALUE>
-         </RUN_ATTRIBUTE>
-      </RUN_ATTRIBUTES>
-   </RUN>
-   <RUN alias="HCATisStabAug177078016_S4_L001_001.bam">
-      <EXPERIMENT_REF refname="0c6332ef-633b-403b-b4ed-c61ccacf87c8"/>
-      <DATA_BLOCK>
-         <FILES>
-            <FILE checksum="" checksum_method="MD5" filename="HCATisStabAug177078016_S4_L001_001.bam" filetype="bam"/>
+            <FILE checksum="DAN ADD HERE" checksum_method="MD5" filename="HCATisStabAug177078016_S1_L001_001.bam" filetype="bam"/>
          </FILES>
       </DATA_BLOCK>
       <RUN_ATTRIBUTES>
