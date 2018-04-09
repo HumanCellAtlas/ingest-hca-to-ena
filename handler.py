@@ -138,22 +138,19 @@ def _add_experiment_xml(experiment_set_element, process_json, ingest_json, other
     # TODO: library strategy = "RNA-seq" is fine for now, suggest adding scRNA-seq to enum for this value
     library_strategy_element.text = "RNA-Seq"
     library_source_element.text = "TRANSCRIPTOMIC SINGLE CELL"
-    # TODO: This information is found in library_preparation_process element
     # library selection: "RANDOM PCR" if primer=random, "PolyA" if primer=poly-dT, "unspecified" if primer is blank
     for p in other_process_json:
         if p['content']['describedBy'].endswith('library_preparation_process'):
             if 'primer' in p['content']:
-                print("Primer field found")
                 if p['content']['primer'] == "random":
-                    print("\tFound random")
+                    print("Primer field found; library_selection set to random")
                     library_selection_element.text = "RANDOM PCR"
                 elif p['content']['primer'] == "poly-dT":
-                    print("\tFound poly-dT")
+                    print("Primer field found; library_selection set to poly-dT")
                     library_selection_element.text = "PolyA"
             elif 'input_nucleic_acid_molecule' in p['content']:
-                print("Input nucleic acid molecule field found")
                 if p['content']['input_nucleic_acid_molecule']['text'] == 'polyA RNA':
-                    print("\tFound polyA RNA")
+                    print("Input nucleic acid molecule field found; library_selection set to polyA RNA")
                     library_selection_element.text = "PolyA"
             else:
                 print("Didn't find primer or input molecule field. Setting to unspecified.")
