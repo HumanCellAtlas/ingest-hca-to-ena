@@ -1,0 +1,50 @@
+<?xml version="1.0" ?>
+<EXPERIMENT_SET>
+   <EXPERIMENT alias="0c6332ef-633b-403b-b4ed-c61ccacf87c8">
+      <TITLE>10x_v2 sequencing</TITLE>
+      <STUDY_REF refname="Tissue stability"/>
+      <DESIGN>
+         <DESIGN_DESCRIPTION/>
+         <SAMPLE_DESCRIPTOR/>
+         <LIBRARY_DESCRIPTOR>
+            <LIBRARY_STRATEGY>RNA-Seq</LIBRARY_STRATEGY>
+            <LIBRARY_SOURCE>TRANSCRIPTOMIC SINGLE CELL</LIBRARY_SOURCE>
+            <LIBRARY_SELECTION>unspecified</LIBRARY_SELECTION>
+            <LIBRARY_LAYOUT>
+               <SINGLE/>
+            </LIBRARY_LAYOUT>
+         </LIBRARY_DESCRIPTOR>
+      </DESIGN>
+      <PLATFORM>
+         <ILLUMINA>
+            <INSTRUMENT_MODEL>Illumina HiSeq 4000</INSTRUMENT_MODEL>
+         </ILLUMINA>
+      </PLATFORM>
+      <EXPERIMENT_ATTRIBUTES>
+         <EXPERIMENT_ATTRIBUTE>
+            <TAG>paired_ends</TAG>
+            <VALUE>True</VALUE>
+         </EXPERIMENT_ATTRIBUTE>
+         <EXPERIMENT_ATTRIBUTE>
+            <TAG>input_nucleic_acid_molecule.text</TAG>
+            <VALUE>polyA RNA</VALUE>
+         </EXPERIMENT_ATTRIBUTE>
+         <EXPERIMENT_ATTRIBUTE>
+            <TAG>input_nucleic_acid_molecule.ontology</TAG>
+            <VALUE>OBI:0000869</VALUE>
+         </EXPERIMENT_ATTRIBUTE>
+         <EXPERIMENT_ATTRIBUTE>
+            <TAG>library_construction_approach</TAG>
+            <VALUE>10x_v2</VALUE>
+         </EXPERIMENT_ATTRIBUTE>
+         <EXPERIMENT_ATTRIBUTE>
+            <TAG>end_bias</TAG>
+            <VALUE>3 prime tag</VALUE>
+         </EXPERIMENT_ATTRIBUTE>
+         <EXPERIMENT_ATTRIBUTE>
+            <TAG>strand</TAG>
+            <VALUE>second</VALUE>
+         </EXPERIMENT_ATTRIBUTE>
+      </EXPERIMENT_ATTRIBUTES>
+   </EXPERIMENT>
+</EXPERIMENT_SET>

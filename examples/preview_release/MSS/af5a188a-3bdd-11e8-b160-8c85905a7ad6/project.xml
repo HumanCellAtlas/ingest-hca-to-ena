@@ -1,0 +1,44 @@
+<?xml version="1.0" ?>
+<PROJECT_SET>
+   <PROJECT alias="Tissue stability">
+      <NAME>Tissue stability</NAME>
+      <TITLE>Ischaemic sensitivity of human tissue by single cell RNA seq</TITLE>
+      <DESCRIPTION>Assessment of ischaemic sensitivity of three human tissues using 10x 3' single cell RNA sequencing - this submission is ONLY for the first spleen sample; further samples to be collected.  Ultimately we aim to collect data from three tissues expected to have different sensitivity to ischaemia: spleen (expected least sensitive), oesophagus (in the middle) and liver (expected most sensitive).  Samples will be collected 'fresh' (ie as soon as possible) and at 12h, 24h and 72h post onset of ischaemia in the donor.  Single cell RNA sequencing data will be generated at each time point using the 10x genomics single cell 3' method.</DESCRIPTION>
+      <COLLABORATORS>
+         <COLLABORATOR>Mike,,Stubbington</COLLABORATOR>
+         <COLLABORATOR>Phillipa,,Harding</COLLABORATOR>
+         <COLLABORATOR>Anna,,Wilbrey-Clark</COLLABORATOR>
+         <COLLABORATOR>Krzysztof,,Polanski</COLLABORATOR>
+         <COLLABORATOR>Kevin,,Loudon</COLLABORATOR>
+         <COLLABORATOR>John,,Ferdinand</COLLABORATOR>
+         <COLLABORATOR>Krishnaa,,Mahbubani</COLLABORATOR>
+         <COLLABORATOR>Nikitas,,Georgakopoulos</COLLABORATOR>
+         <COLLABORATOR>Kerstin,,Meyer</COLLABORATOR>
+      </COLLABORATORS>
+      <SUBMISSION_PROJECT>
+         <SEQUENCING_PROJECT/>
+      </SUBMISSION_PROJECT>
+      <PROJECT_ATTRIBUTES>
+         <PROJECT_ATTRIBUTE>
+            <TAG>supplementary_files</TAG>
+            <VALUE>Experimental_report.docx</VALUE>
+         </PROJECT_ATTRIBUTE>
+         <PROJECT_ATTRIBUTE>
+            <TAG>supplementary_files</TAG>
+            <VALUE>Human_spleen_dissociation_protocol.pdf</VALUE>
+         </PROJECT_ATTRIBUTE>
+         <PROJECT_ATTRIBUTE>
+            <TAG>supplementary_files</TAG>
+            <VALUE>Clinical_metadata.xlsx</VALUE>
+         </PROJECT_ATTRIBUTE>
+         <PROJECT_ATTRIBUTE>
+            <TAG>supplementary_files</TAG>
+            <VALUE>284C_IMAGE_spleen_annotated.jpeg</VALUE>
+         </PROJECT_ATTRIBUTE>
+         <PROJECT_ATTRIBUTE>
+            <TAG>supplementary_files</TAG>
+            <VALUE>10x_protocol.pdf</VALUE>
+         </PROJECT_ATTRIBUTE>
+      </PROJECT_ATTRIBUTES>
+   </PROJECT>
+</PROJECT_SET>
