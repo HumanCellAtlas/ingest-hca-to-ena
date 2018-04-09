@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+fastq2bam -s 10xV2 -b /data/Regev-ICA/data/cord-blood/bam/MantonCB1_HiSeq_1_L001_I1_001.bam -1 /data/Regev-ICA/data/cord-blood/fastqs/MantonCB1_HiSeq_1_S1_L001_R1_001.fastq.gz -2 /data/Regev-ICA/data/cord-blood/fastqs/MantonCB1_HiSeq_1_S1_L001_R2_001.fastq.gz  -3 /data/Regev-ICA/data/cord-blood/fastqs/MantonCB1_HiSeq_1_S1_L001_I1_001.fastq.gz

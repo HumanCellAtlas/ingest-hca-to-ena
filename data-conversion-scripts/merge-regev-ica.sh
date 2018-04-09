@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+cat MantonBM1_HiSeq_1_S1_L007_I1_001.fastq.gz
+MantonBM1_HiSeq_1_S1_L007_I1_001.fastq.gz
+MantonBM1_HiSeq_1_S2_L007_I1_001.fastq.gz
+MantonBM1_HiSeq_1_S3_L007_I1_001.fastq.gz
+MantonBM1_HiSeq_1_S4_L007_I1_001.fastq.gz
+MantonBM1_HiSeq_1_S5_L007_I1_001.fastq.gz
+MantonBM1_HiSeq_1_S6_L007_I1_001.fastq.gz
+MantonBM1_HiSeq_1_S7_L007_I1_001.fastq.gz
+MantonBM1_HiSeq_1_S8_L007_I1_001.fastq.gz
+MantonBM1_HiSeq_1_S9_L007_I1_001.fastq.gz
+MantonBM1_HiSeq_1_S10_L007_I1_001.fastq.gz
+MantonBM1_HiSeq_1_S11_L007_I1_001.fastq.gz
+MantonBM1_HiSeq_1_S12_L007_I1_001.fastq.gz
+MantonBM1_HiSeq_1_S13_L007_I1_001.fastq.gz
+MantonBM1_HiSeq_1_S14_L007_I1_001.fastq.gz
+MantonBM1_HiSeq_1_S15_L007_I1_001.fastq.gz
+MantonBM1_HiSeq_1_S16_L007_I1_001.fastq.gz
+MantonBM1_HiSeq_1_S17_L007_I1_001.fastq.gz
+MantonBM1_HiSeq_1_S18_L007_I1_001.fastq.gz
+MantonBM1_HiSeq_1_S19_L007_I1_001.fastq.gz
+MantonBM1_HiSeq_1_S20_L007_I1_001.fastq.gz
+MantonBM1_HiSeq_1_S21_L007_I1_001.fastq.gz
+MantonBM1_HiSeq_1_S22_L007_I1_001.fastq.gz
+MantonBM1_HiSeq_1_S23_L007_I1_001.fastq.gz
+MantonBM1_HiSeq_1_S24_L007_I1_001.fastq.gz
+MantonBM1_HiSeq_1_S25_L007_I1_001.fastq.gz
+MantonBM1_HiSeq_1_S26_L007_I1_001.fastq.gz
+MantonBM1_HiSeq_1_S27_L007_I1_001.fastq.gz
+MantonBM1_HiSeq_1_S28_L007_I1_001.fastq.gz
+MantonBM1_HiSeq_1_S29_L007_I1_001.fastq.gz
+MantonBM1_HiSeq_1_S30_L007_I1_001.fastq.gz
+MantonBM1_HiSeq_1_S31_L007_I1_001.fastq.gz
+> ../fastq-concat/MantonBM1_HiSeq_1_L007_I1_001.fastq.gz
