@@ -119,7 +119,7 @@ def _add_run_xml(run_set_element, file_json, ingest_json, links_json): # links a
                    ['file_core', 'schema_type', 'describedBy', 'schema_version', 'read_index', 'read_length'])
 
 
-def _add_experiment_xml(experiment_set_element, process_json, ingest_json):
+def _add_experiment_xml(experiment_set_element, process_json, ingest_json, other_process_json):
     experiment_element = ET.SubElement(experiment_set_element, 'EXPERIMENT')
     title_element = ET.SubElement(experiment_element, 'TITLE')
     study_ref_element = ET.SubElement(experiment_element, 'STUDY_REF')
@@ -160,9 +160,12 @@ def _add_experiment_xml(experiment_set_element, process_json, ingest_json):
     experiment_attributes = ET.SubElement(experiment_element, 'EXPERIMENT_ATTRIBUTES') # HCA metadata not in ENA schema
     set_attributes(experiment_attributes, process_json, 'EXPERIMENT_ATTRIBUTE',
                    ['process_core', 'schema_type', 'describedBy', 'schema_version', 'instrument_manufacturer_model'])
+    for p in other_process_json:
+        set_attributes(experiment_attributes, p['content'], 'EXPERIMENT_ATTRIBUTE',
+                       ['process_core', 'schema_type', 'describedBy', 'schema_version'])
 
 
-def _add_sample_xml(sample_set_element, biomaterial_json):
+def _add_sample_xml(sample_set_element, biomaterial_json, other_biomaterial_json):
     sample_element = ET.SubElement(sample_set_element, 'SAMPLE')
     title_element = ET.SubElement(sample_element, 'TITLE')
     sample_name_element = ET.SubElement(sample_element, 'SAMPLE_NAME')
@@ -180,6 +183,9 @@ def _add_sample_xml(sample_set_element, biomaterial_json):
     # TODO: Handling for genus_species
     set_attributes(sample_attributes, biomaterial_json, 'SAMPLE_ATTRIBUTE',
                    ['biomaterial_core', 'schema_type', 'describedBy', 'schema_version'])
+    for b in other_biomaterial_json:
+        set_attributes(sample_attributes, b['content'], 'SAMPLE_ATTRIBUTE',
+                       ['biomaterial_core', 'schema_type', 'describedBy', 'schema_version', 'genus_species'])
 
 
 def _add_project_xml(project_set_element, project_json):
@@ -224,7 +230,8 @@ def _create_sample_set_xml(biomaterials_json):
         # TODO: The following line hard-codes 'cell_suspension' as the terminal biomaterial,
         # TODO: but the terminal biomaterial should be deduced from links in the future.
         if biomaterial['content']['describedBy'].endswith('cell_suspension'):
-            _add_sample_xml(sample_set_element, biomaterial['content'])
+            non_cell_suspension_process = [b for b in biomaterials_json if not b['content']['describedBy'].endswith('cell_suspension')]
+            _add_sample_xml(sample_set_element, biomaterial['content'], non_cell_suspension_process)
     sample_set_xml = ET.tostring(sample_set_element)
     return sample_set_xml
 
@@ -240,28 +247,23 @@ def _create_experiment_set_xml(processes_json, links_json):
         # TODO: Only sequencing_processes need to be made into distinct experiment blocks,
         # TODO: but each sequencing_process will need information from associated upstream processes.
         if process['content']['describedBy'].endswith('sequencing_process'):
-            # Get all upstream processes that went into this sequencing process
-            print('seq process:\n%s' % process)
-            for link in links_json:
-                sample_source_ids = []
-                if link['destination_id'] == process['hca_ingest']['document_id'] and link['source_type'] == 'biomaterial':
-                    print('biomaterial link:\n%s' % link)
-                    sample_source_ids.append(link['source_id'])
-                    # print(link['source_id'])
-            print(sample_source_ids)
-            for link in links_json:
-                process_ids = []
-                if link['source_id'] in sample_source_ids and link['destination_type'] is 'library_preparation_process':
-                    print('link: %s' % link)
-                    process_ids.append(link['destination_id'])
-            for processes in processes_json:
-                upstream_processes = []
-                if processes['hca_ingest']['document_id'] in process_ids:
-                    print('upstream processes: %s' % processes)
-                    upstream_processes.append(processes)
-            print(processes)
-            exit()
-            _add_experiment_xml(experiment_set_element, process['content'], process['hca_ingest'])
+            # TODO: Get all upstream processes that went into this sequencing process
+
+            # Get ID of sequencing process of interest
+            # print('Seq process of interest:\n%s' % process)
+
+            # Get all biomaterials that went into this sequencing process
+            sample_source_ids = [link['source_id'] for link in links_json if link['destination_id'] == process['hca_ingest']['document_id'] and link['source_type'] == 'biomaterial']
+            # print('Biomaterials that went into this seq process:')
+            # print(sample_source_ids)
+
+            # Get library_preparation_process that went into this sequencing process
+            # lib_prep_process_ids = [link['destination_id'] for link in links_json if link['source_id'] in sample_source_ids and link['destination_type'] == 'library_preparation_process']
+            # print('Lib prep process IDs of interest:')
+            # print(lib_prep_process_ids)
+
+            non_seq_process = [p for p in processes_json if not p['content']['describedBy'].endswith('sequencing_process')]
+            _add_experiment_xml(experiment_set_element, process['content'], process['hca_ingest'], non_seq_process)
     experiment_set_xml = ET.tostring(experiment_set_element)
     return experiment_set_xml
 
