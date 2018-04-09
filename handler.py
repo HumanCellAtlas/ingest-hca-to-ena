@@ -54,14 +54,14 @@ def set_attributes(attributes, entity_json, attribute_type, ignore_fields):
             # print('\ttype: %s' % type(entity_json[attrib]))
             if isinstance(entity_json[attrib], list):
                 # print('\t%s is list' % attrib)
-                if not isinstance(entity_json[attrib][0], dict):
+                if not isinstance(entity_json[attrib][0], dict): # List of values
                     for item in entity_json[attrib]:
                         attribute = ET.SubElement(attributes, attribute_type)
                         attribute_tag = ET.SubElement(attribute, 'TAG')
                         attribute_tag.text = attrib
                         attribute_val = ET.SubElement(attribute, 'VALUE')
                         attribute_val.text = item
-                elif 'text' in entity_json[attrib][0].keys() or 'ontology' in entity_json[attrib][0].keys():
+                elif 'text' in entity_json[attrib][0].keys() or 'ontology' in entity_json[attrib][0].keys(): # ontologized field
                     # print('\t%s is an ontology' % attrib)
                     ontology_dict = entity_json[attrib][0]
                     # print('\tontolgoy type: %s' % type(ontology_dict))
@@ -71,15 +71,23 @@ def set_attributes(attributes, entity_json, attribute_type, ignore_fields):
                         attribute_tag.text = attrib + '.' + key
                         attribute_val = ET.SubElement(attribute, 'VALUE')
                         attribute_val.text = value
-            elif isinstance(entity_json[attrib], dict): # Ontology field w/o ontology term, only text term
-                if 'text' in entity_json[attrib].keys() or 'ontology' in entity_json[attrib].keys():
+            elif isinstance(entity_json[attrib], dict): # Ontology or module
+                if 'text' in entity_json[attrib].keys() or 'ontology' in entity_json[attrib].keys(): # Ontology field
                     ontology_dict = entity_json[attrib]
                     for key, value in ontology_dict.items():
                         attribute = ET.SubElement(attributes, attribute_type)
                         attribute_tag = ET.SubElement(attribute, 'TAG')
                         attribute_tag.text = attrib + '.' + key
                         attribute_val = ET.SubElement(attribute, 'VALUE')
-                        attribute_val.text = value
+                        attribute_val.text = str(value)
+                else: # module
+                    # print('\t%s is a module' % attrib)
+                    for key, value in entity_json[attrib].items():
+                        attribute = ET.SubElement(attributes, attribute_type)
+                        attribute_tag = ET.SubElement(attribute, 'TAG')
+                        attribute_tag.text = attrib + '.' + key
+                        attribute_val = ET.SubElement(attribute, 'VALUE')
+                        attribute_val.text = str(value)
             else:
                 # print('\t%s is not list' % attrib)
                 attribute = ET.SubElement(attributes, attribute_type)
