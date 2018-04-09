@@ -34,8 +34,32 @@
             <VALUE>OBI:0000869</VALUE>
          </EXPERIMENT_ATTRIBUTE>
          <EXPERIMENT_ATTRIBUTE>
+            <TAG>umi_barcode.barcode_offset</TAG>
+            <VALUE>16</VALUE>
+         </EXPERIMENT_ATTRIBUTE>
+         <EXPERIMENT_ATTRIBUTE>
+            <TAG>umi_barcode.barcode_length</TAG>
+            <VALUE>10</VALUE>
+         </EXPERIMENT_ATTRIBUTE>
+         <EXPERIMENT_ATTRIBUTE>
+            <TAG>umi_barcode.barcode_read</TAG>
+            <VALUE>Read 1</VALUE>
+         </EXPERIMENT_ATTRIBUTE>
+         <EXPERIMENT_ATTRIBUTE>
             <TAG>library_construction_approach</TAG>
             <VALUE>10x_v2</VALUE>
+         </EXPERIMENT_ATTRIBUTE>
+         <EXPERIMENT_ATTRIBUTE>
+            <TAG>cell_barcode.barcode_offset</TAG>
+            <VALUE>0</VALUE>
+         </EXPERIMENT_ATTRIBUTE>
+         <EXPERIMENT_ATTRIBUTE>
+            <TAG>cell_barcode.barcode_length</TAG>
+            <VALUE>16</VALUE>
+         </EXPERIMENT_ATTRIBUTE>
+         <EXPERIMENT_ATTRIBUTE>
+            <TAG>cell_barcode.barcode_read</TAG>
+            <VALUE>Read 1</VALUE>
          </EXPERIMENT_ATTRIBUTE>
          <EXPERIMENT_ATTRIBUTE>
             <TAG>end_bias</TAG>

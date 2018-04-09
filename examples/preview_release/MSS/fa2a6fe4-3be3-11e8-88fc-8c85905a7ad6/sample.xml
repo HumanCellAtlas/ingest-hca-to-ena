@@ -19,6 +19,26 @@
             <VALUE>39300000</VALUE>
          </SAMPLE_ATTRIBUTE>
          <SAMPLE_ATTRIBUTE>
+            <TAG>state_of_specimen.ischemic_time</TAG>
+            <VALUE>7200</VALUE>
+         </SAMPLE_ATTRIBUTE>
+         <SAMPLE_ATTRIBUTE>
+            <TAG>state_of_specimen.gross_image</TAG>
+            <VALUE>['284C_IMAGE_spleen_annotated.jpg']</VALUE>
+         </SAMPLE_ATTRIBUTE>
+         <SAMPLE_ATTRIBUTE>
+            <TAG>state_of_specimen.postmortem_interval</TAG>
+            <VALUE>19800</VALUE>
+         </SAMPLE_ATTRIBUTE>
+         <SAMPLE_ATTRIBUTE>
+            <TAG>state_of_specimen.ischemic_temperature</TAG>
+            <VALUE>warm</VALUE>
+         </SAMPLE_ATTRIBUTE>
+         <SAMPLE_ATTRIBUTE>
+            <TAG>state_of_specimen.microscopic_description</TAG>
+            <VALUE>dead cells are quite faint on microscope at LMB</VALUE>
+         </SAMPLE_ATTRIBUTE>
+         <SAMPLE_ATTRIBUTE>
             <TAG>organ.text</TAG>
             <VALUE>spleen</VALUE>
          </SAMPLE_ATTRIBUTE>
@@ -28,6 +48,14 @@
          </SAMPLE_ATTRIBUTE>
          <SAMPLE_ATTRIBUTE>
             <TAG>is_living</TAG>
+            <VALUE>False</VALUE>
+         </SAMPLE_ATTRIBUTE>
+         <SAMPLE_ATTRIBUTE>
+            <TAG>death.cause_of_death</TAG>
+            <VALUE>Hypoxic brain damage</VALUE>
+         </SAMPLE_ATTRIBUTE>
+         <SAMPLE_ATTRIBUTE>
+            <TAG>death.cold_perfused</TAG>
             <VALUE>False</VALUE>
          </SAMPLE_ATTRIBUTE>
          <SAMPLE_ATTRIBUTE>
@@ -61,6 +89,14 @@
          <SAMPLE_ATTRIBUTE>
             <TAG>organism_age</TAG>
             <VALUE>55-60</VALUE>
+         </SAMPLE_ATTRIBUTE>
+         <SAMPLE_ATTRIBUTE>
+            <TAG>medical_history.alcohol_history</TAG>
+            <VALUE>3-6 units/day</VALUE>
+         </SAMPLE_ATTRIBUTE>
+         <SAMPLE_ATTRIBUTE>
+            <TAG>medical_history.smoking_history</TAG>
+            <VALUE>Smoker, 20/day for 25 years, stopped 2000</VALUE>
          </SAMPLE_ATTRIBUTE>
          <SAMPLE_ATTRIBUTE>
             <TAG>organism_age_unit.text</TAG>
