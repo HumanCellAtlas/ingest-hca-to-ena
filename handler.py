@@ -140,13 +140,24 @@ def _add_experiment_xml(experiment_set_element, process_json, ingest_json, other
     library_source_element.text = "TRANSCRIPTOMIC SINGLE CELL"
     # TODO: This information is found in library_preparation_process element
     # library selection: "RANDOM PCR" if primer=random, "PolyA" if primer=poly-dT, "unspecified" if primer is blank
-    if 'primer' in process_json:
-        if process_json['primer'] == "random":
-            library_selection_element.text = "RANDOM PCR"
-        elif process_json['primer'] == "poly-dT":
-            library_selection_element.text = "PolyA"
-    else:
-        library_selection_element.text = "unspecified"
+    for p in other_process_json:
+        if p['content']['describedBy'].endswith('library_preparation_process'):
+            if 'primer' in p['content']:
+                print("Primer field found")
+                if p['content']['primer'] == "random":
+                    print("\tFound random")
+                    library_selection_element.text = "RANDOM PCR"
+                elif p['content']['primer'] == "poly-dT":
+                    print("\tFound poly-dT")
+                    library_selection_element.text = "PolyA"
+            elif 'input_nucleic_acid_molecule' in p['content']:
+                print("Input nucleic acid molecule field found")
+                if p['content']['input_nucleic_acid_molecule']['text'] == 'polyA RNA':
+                    print("\tFound polyA RNA")
+                    library_selection_element.text = "PolyA"
+            else:
+                print("Didn't find primer or input molecule field. Setting to unspecified.")
+                library_selection_element.text = "unspecified"
     instrument_model_element.text = process_json['instrument_manufacturer_model']['text']
     if 'process_core' in process_json:
         process_core = process_json['process_core']
@@ -241,7 +252,7 @@ def _create_experiment_set_xml(processes_json, links_json):
     # processes_json is list, each item is a dict
     # links_json is list, each item is a dict
     for process in processes_json:
-        print('process: %s' % process['content']['describedBy'])
+        # print('process: %s' % process['content']['describedBy'])
         # TODO: The following line hard-codes 'sequencing_process' as the terminal process,
         # TODO: but the terminal process should be deduced from links in the future.
         # TODO: Only sequencing_processes need to be made into distinct experiment blocks,
