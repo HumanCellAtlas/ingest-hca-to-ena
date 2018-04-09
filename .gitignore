@@ -232,4 +232,13 @@ typings/
 # next.js build output
 .next
 
+# PyCharm fluff
+.idea/
+
+# MacOS X crap
+.DS_Store
+*/.DS_Store
+*/*/.DS_Store
+*/*/*/.DS_Store
+
 /examples/submission/other/curl-commands.txt
