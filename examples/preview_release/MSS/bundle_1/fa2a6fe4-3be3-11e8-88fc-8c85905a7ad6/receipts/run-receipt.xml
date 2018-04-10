@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="receipt.xsl"?>
+<RECEIPT receiptDate="2018-04-10T14:57:45.386+01:00" submissionFile="submission.xml" success="true">
+    <RUN accession="ERR2508319" alias="HCATisStabAug177078016_L001_001.bam" status="PRIVATE"/>
+    <SUBMISSION accession="ERA1286546" alias="SUBMISSION-10-04-2018-14:57:45:173"/>
+    <MESSAGES>
+        <INFO>Submission has been committed.</INFO>
+    </MESSAGES>
+    <ACTIONS>ADD</ACTIONS>
+</RECEIPT>

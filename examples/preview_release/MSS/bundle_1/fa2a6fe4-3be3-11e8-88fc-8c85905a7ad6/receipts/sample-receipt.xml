@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="receipt.xsl"?>
+<RECEIPT receiptDate="2018-04-10T14:56:29.021+01:00" submissionFile="submission.xml" success="true">
+    <SAMPLE accession="ERS2392443" alias="A1-Spl-0-TL5_cells" status="PRIVATE">
+        <EXT_ID accession="SAMEA1098924" type="biosample"/>
+    </SAMPLE>
+    <SUBMISSION accession="ERA1286544" alias="SUBMISSION-10-04-2018-14:56:28:859"/>
+    <MESSAGES>
+        <INFO>Submission has been committed.</INFO>
+    </MESSAGES>
+    <ACTIONS>ADD</ACTIONS>
+</RECEIPT>

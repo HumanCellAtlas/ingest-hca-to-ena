@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="receipt.xsl"?>
+<RECEIPT receiptDate="2018-04-10T14:57:09.800+01:00" submissionFile="submission.xml" success="true">
+    <EXPERIMENT accession="ERX2527770" alias="0c6332ef-633b-403b-b4ed-c61ccacf87c8" status="PRIVATE"/>
+    <SUBMISSION accession="ERA1286545" alias="SUBMISSION-10-04-2018-14:57:09:570"/>
+    <MESSAGES>
+        <INFO>Submission has been committed.</INFO>
+    </MESSAGES>
+    <ACTIONS>ADD</ACTIONS>
+</RECEIPT>
