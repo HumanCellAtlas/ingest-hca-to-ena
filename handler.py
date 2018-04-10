@@ -117,7 +117,7 @@ def _add_run_xml(run_set_element, file_json, ingest_json, links_json): # links a
             file_element.set('filename', bam_file_name)
             # Get sequencing process ID for experiment_ref
             for link in links_json:
-                # TODO: The following 2 lines rely on links_json and hca_ingest of the file_json
+                # The following 2 lines rely on links_json and hca_ingest of the file_json
                 if link['destination_id'] == ingest_json['document_id'] and link['source_type'] == 'sequencing_process':
                     experiment_ref_element.set('refname', link['source_id']) # This is a UUID now
                     break # TODO: confirm this breaks the loop at the appropriate point
@@ -134,6 +134,7 @@ def _add_experiment_xml(experiment_set_element, process_json, ingest_json, other
     design_element = ET.SubElement(experiment_element, 'DESIGN')
     design_description_element = ET.SubElement(design_element, 'DESIGN_DESCRIPTION')
     sample_descriptor_element = ET.SubElement(design_element, 'SAMPLE_DESCRIPTOR')
+    # TODO: Set sample_descriptor_element here to be the alias of the input samples
     library_descriptor_element = ET.SubElement(design_element, 'LIBRARY_DESCRIPTOR')
     library_strategy_element = ET.SubElement(library_descriptor_element, 'LIBRARY_STRATEGY')
     library_source_element = ET.SubElement(library_descriptor_element, 'LIBRARY_SOURCE')
@@ -196,7 +197,6 @@ def _add_sample_xml(sample_set_element, biomaterial_json, other_biomaterial_json
             taxon_id_element.text = str(biomaterial_core['ncbi_taxon_id'][0])
     # Add additional attributes not in ENA schema
     sample_attributes = ET.SubElement(sample_element, 'SAMPLE_ATTRIBUTES') # HCA metadata not in ENA schema
-    # TODO: Handling for genus_species
     set_attributes(sample_attributes, biomaterial_json, 'SAMPLE_ATTRIBUTE',
                    ['biomaterial_core', 'schema_type', 'describedBy', 'schema_version'])
     for b in other_biomaterial_json:
@@ -217,6 +217,9 @@ def _add_project_xml(project_set_element, project_json):
         if 'project_shortname' in project_core:
             shortname = project_core['project_shortname']
             project_element.set('alias', shortname)
+            # TODO: Get center name from "Institution" field in contact.json
+            # center_name hard-coded to be Wellcome Trust Sanger Institute (SC)
+            project_element.set('center_name', "SC")
             name_element.text = shortname
             global _study_ref
             _study_ref = shortname
