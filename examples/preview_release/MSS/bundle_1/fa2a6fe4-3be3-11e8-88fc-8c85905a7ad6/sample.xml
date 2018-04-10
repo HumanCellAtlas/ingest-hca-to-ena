@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <SAMPLE_SET>
-   <SAMPLE alias="A1-Spl-0-TL5_cells">
+   <SAMPLE alias="A1-Spl-0-TL5_cells" center_name="SC">
       <TITLE>cells from fresh spleen</TITLE>
       <SAMPLE_NAME>
          <TAXON_ID>9606</TAXON_ID>

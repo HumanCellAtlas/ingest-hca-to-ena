@@ -1,11 +1,11 @@
 <?xml version="1.0" ?>
 <EXPERIMENT_SET>
-   <EXPERIMENT alias="0c6332ef-633b-403b-b4ed-c61ccacf87c8">
+   <EXPERIMENT alias="0c6332ef-633b-403b-b4ed-c61ccacf87c8" center_name="SC">
       <TITLE>10x_v2 sequencing</TITLE>
       <STUDY_REF refname="Tissue stability"/>
       <DESIGN>
          <DESIGN_DESCRIPTION/>
-         <SAMPLE_DESCRIPTOR/>
+         <SAMPLE_DESCRIPTOR refname="A1-Spl-0-TL5_cells"/>
          <LIBRARY_DESCRIPTOR>
             <LIBRARY_STRATEGY>RNA-Seq</LIBRARY_STRATEGY>
             <LIBRARY_SOURCE>TRANSCRIPTOMIC SINGLE CELL</LIBRARY_SOURCE>
