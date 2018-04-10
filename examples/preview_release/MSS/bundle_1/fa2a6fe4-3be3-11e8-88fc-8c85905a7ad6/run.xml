@@ -1,10 +1,10 @@
 <?xml version="1.0" ?>
 <RUN_SET>
-   <RUN alias="HCATisStabAug177078016_L001_001.bam">
+   <RUN alias="HCATisStabAug177078016_L001_001.bam" center_name="SC">
       <EXPERIMENT_REF refname="0c6332ef-633b-403b-b4ed-c61ccacf87c8"/>
       <DATA_BLOCK>
          <FILES>
-            <FILE checksum="b95efcf2738b3e323abdba7b72501f16" checksum_method="MD5" filename="HCATisStabAug177078016_S1_L001_001.bam" filetype="bam"/>
+            <FILE checksum="b95efcf2738b3e323abdba7b72501f16" checksum_method="MD5" filename="HCATisStabAug177078016_L001_001.bam" filetype="bam"/>
          </FILES>
       </DATA_BLOCK>
       <RUN_ATTRIBUTES>
