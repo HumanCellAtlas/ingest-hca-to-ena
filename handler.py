@@ -98,7 +98,7 @@ def set_attributes(attributes, entity_json, attribute_type, ignore_fields):
     return
 
 
-def _add_run_xml(run_set_element, file_json, ingest_json, links_json): # links are in file_json? this is probably wrong
+def _add_run_xml(run_set_element, file_json, ingest_json, links_json, center_name):
     run_element = ET.SubElement(run_set_element, 'RUN')
     experiment_ref_element = ET.SubElement(run_element, 'EXPERIMENT_REF')
     data_block_element = ET.SubElement(run_element, 'DATA_BLOCK')
@@ -114,6 +114,7 @@ def _add_run_xml(run_set_element, file_json, ingest_json, links_json): # links a
             # Generate bam file name
             bam_file_name = re.sub('_R1', '', file_core['file_name'].split('fastq')[0]) + 'bam'
             run_element.set('alias', bam_file_name)
+            run_element.set('center_name', center_name)
             file_element.set('filename', bam_file_name)
             # Get sequencing process ID for experiment_ref
             for link in links_json:
@@ -127,7 +128,7 @@ def _add_run_xml(run_set_element, file_json, ingest_json, links_json): # links a
                    ['file_core', 'schema_type', 'describedBy', 'schema_version', 'read_index', 'read_length'])
 
 
-def _add_experiment_xml(experiment_set_element, process_json, ingest_json, other_process_json):
+def _add_experiment_xml(experiment_set_element, process_json, ingest_json, other_process_json, center_name):
     experiment_element = ET.SubElement(experiment_set_element, 'EXPERIMENT')
     title_element = ET.SubElement(experiment_element, 'TITLE')
     study_ref_element = ET.SubElement(experiment_element, 'STUDY_REF')
@@ -169,6 +170,7 @@ def _add_experiment_xml(experiment_set_element, process_json, ingest_json, other
         process_core = process_json['process_core']
         if 'process_id' in process_core:
             experiment_element.set('alias', ingest_json['document_id'])
+            experiment_element.set('center_name', center_name)
         if 'process_name' in process_core:
             title_element.text = process_core['process_name']
         if _study_ref:
@@ -182,7 +184,7 @@ def _add_experiment_xml(experiment_set_element, process_json, ingest_json, other
                        ['process_core', 'schema_type', 'describedBy', 'schema_version'])
 
 
-def _add_sample_xml(sample_set_element, biomaterial_json, other_biomaterial_json):
+def _add_sample_xml(sample_set_element, biomaterial_json, other_biomaterial_json, center_name):
     sample_element = ET.SubElement(sample_set_element, 'SAMPLE')
     title_element = ET.SubElement(sample_element, 'TITLE')
     sample_name_element = ET.SubElement(sample_element, 'SAMPLE_NAME')
@@ -191,6 +193,7 @@ def _add_sample_xml(sample_set_element, biomaterial_json, other_biomaterial_json
         biomaterial_core = biomaterial_json['biomaterial_core']
         if 'biomaterial_id' in biomaterial_core:
             sample_element.set('alias', biomaterial_core['biomaterial_id'])
+            sample_element.set('center_name', center_name)
         if 'biomaterial_name' in biomaterial_core:
             title_element.text = biomaterial_core['biomaterial_name']
         if 'ncbi_taxon_id' in biomaterial_core:
@@ -204,7 +207,7 @@ def _add_sample_xml(sample_set_element, biomaterial_json, other_biomaterial_json
                        ['biomaterial_core', 'schema_type', 'describedBy', 'schema_version', 'genus_species'])
 
 
-def _add_project_xml(project_set_element, project_json):
+def _add_project_xml(project_set_element, project_json, center_name):
     project_element = ET.SubElement(project_set_element, 'PROJECT')
     name_element = ET.SubElement(project_element, 'NAME')
     title_element = ET.SubElement(project_element, 'TITLE')
@@ -217,9 +220,7 @@ def _add_project_xml(project_set_element, project_json):
         if 'project_shortname' in project_core:
             shortname = project_core['project_shortname']
             project_element.set('alias', shortname)
-            # TODO: Get center name from "Institution" field in contact.json
-            # center_name hard-coded to be Wellcome Trust Sanger Institute (SC)
-            project_element.set('center_name', "SC")
+            project_element.set('center_name', center_name)
             name_element.text = shortname
             global _study_ref
             _study_ref = shortname
@@ -231,31 +232,33 @@ def _add_project_xml(project_set_element, project_json):
         for contrib in project_json['contributors']:
             collaborator_element = ET.SubElement(collaborators_element, 'COLLABORATOR')
             collaborator_element.text = contrib['contact_name']
-    # Add additional attributes not in ENA schema
-    project_attributes = ET.SubElement(project_element, 'PROJECT_ATTRIBUTES')
-    set_attributes(project_attributes, project_json, 'PROJECT_ATTRIBUTE',
-                   ['contributors', 'project_core', 'schema_type', 'describedBy', 'schema_version', 'publications'])
+    # Add additional attributes not in ENA schema, if there are any
+    ignore_attributes = ['contributors', 'project_core', 'schema_type', 'describedBy', 'schema_version', 'publications']
+    if list(set(project_json.keys()) - set(ignore_attributes)):
+        print("Extra attributes found. Adding additional attributes to XML.")
+        project_attributes = ET.SubElement(project_element, 'PROJECT_ATTRIBUTES')
+        set_attributes(project_attributes, project_json, 'PROJECT_ATTRIBUTE', ignore_attributes)
 
 
-def _create_project_set_xml(projects_json):
+def _create_project_set_xml(projects_json, center_name):
     project_set_element = ET.Element('PROJECT_SET')
-    _add_project_xml(project_set_element, projects_json)
+    _add_project_xml(project_set_element, projects_json, center_name)
     project_set_xml = ET.tostring(project_set_element)
     return project_set_xml
 
-def _create_sample_set_xml(biomaterials_json):
+def _create_sample_set_xml(biomaterials_json, center_name):
     sample_set_element = ET.Element('SAMPLE_SET')
     for biomaterial in biomaterials_json:
         # TODO: The following line hard-codes 'cell_suspension' as the terminal biomaterial,
         # TODO: but the terminal biomaterial should be deduced from links in the future.
         if biomaterial['content']['describedBy'].endswith('cell_suspension'):
             non_cell_suspension_process = [b for b in biomaterials_json if not b['content']['describedBy'].endswith('cell_suspension')]
-            _add_sample_xml(sample_set_element, biomaterial['content'], non_cell_suspension_process)
+            _add_sample_xml(sample_set_element, biomaterial['content'], non_cell_suspension_process, center_name)
     sample_set_xml = ET.tostring(sample_set_element)
     return sample_set_xml
 
 
-def _create_experiment_set_xml(processes_json, links_json):
+def _create_experiment_set_xml(processes_json, center_name, links_json):
     experiment_set_element = ET.Element('EXPERIMENT_SET')
     # processes_json is list, each item is a dict
     # links_json is list, each item is a dict
@@ -282,18 +285,18 @@ def _create_experiment_set_xml(processes_json, links_json):
             # print(lib_prep_process_ids)
 
             non_seq_process = [p for p in processes_json if not p['content']['describedBy'].endswith('sequencing_process')]
-            _add_experiment_xml(experiment_set_element, process['content'], process['hca_ingest'], non_seq_process)
+            _add_experiment_xml(experiment_set_element, process['content'], process['hca_ingest'], non_seq_process, center_name)
     experiment_set_xml = ET.tostring(experiment_set_element)
     return experiment_set_xml
 
 
-def _create_run_set_xml(files_json, links_json):
+def _create_run_set_xml(files_json, center_name, links_json):
     run_set_element = ET.Element('RUN_SET')
     for file in files_json:
         # TODO: The following line restricts run creation to only be based on read1 (R1) files
         # TODO: This is because read1 is the only required file and all other files are collapsed with read1
         if file['content']['read_index'] == 'read1':
-            _add_run_xml(run_set_element, file['content'], file['hca_ingest'], links_json)
+            _add_run_xml(run_set_element, file['content'], file['hca_ingest'], links_json, center_name)
     run_set_xml = ET.tostring(run_set_element)
     return run_set_xml
 
@@ -310,6 +313,8 @@ def _create_submission_xml():
 def convert(dataset_json, job_id):
     submission_xml = _create_submission_xml()
     _output_xml("submission", submission_xml, job_id)
+    # center_name hard-coded to be Wellcome Trust Sanger Institute (SC) or
+    center_name = "SC"
     for element in dataset_json: # Get links first; they are needed elsewhere
         if 'schema_type' in element:
             if element['schema_type'] == 'link_bundle':
@@ -320,22 +325,22 @@ def convert(dataset_json, job_id):
             if schema_type == 'project_bundle':
                 if 'content' in element:
                     project_json = element['content']
-                    project_set_xml = _create_project_set_xml(project_json)
+                    project_set_xml = _create_project_set_xml(project_json, center_name)
                     _output_xml("project", project_set_xml, job_id)
             if schema_type == 'biomaterial_bundle':
                 biomaterials_json = element['biomaterials']
                 if len(biomaterials_json) > 0:
-                    sample_set_xml = _create_sample_set_xml(biomaterials_json)
+                    sample_set_xml = _create_sample_set_xml(biomaterials_json, center_name)
                     _output_xml("sample", sample_set_xml, job_id)
             if schema_type == 'process_bundle':
                 processes_json = element['processes']
                 if len(processes_json) > 0:
-                    experiment_set_xml = _create_experiment_set_xml(processes_json, links_json)
+                    experiment_set_xml = _create_experiment_set_xml(processes_json, center_name, links_json)
                     _output_xml("experiment", experiment_set_xml, job_id)
             if schema_type == 'file_bundle':
                 files_json = element['files']
                 if len(files_json) > 0: # If there are files in the submission
-                    run_set_xml = _create_run_set_xml(files_json, links_json)
+                    run_set_xml = _create_run_set_xml(files_json, center_name, links_json)
                     _output_xml("run", run_set_xml, job_id)
 
 

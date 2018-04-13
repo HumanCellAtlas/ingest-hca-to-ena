@@ -32,8 +32,8 @@ def validate_output(schema_file_name, xml_file_name, job_id):
 class TestHandler(unittest.TestCase):
 
     def test_convert(self):
-        # with open('examples/metadata_spleen_v5_20180313_userFriendlyHeaders.json') as json_data:
-        with open('examples/preview_release/MSS/bundle.json') as json_data:
+        # with open('examples/preview_release/MSS/bundle.json') as json_data:
+        with open('examples/preview_release/TMM/bundle.json') as json_data:
             job_id = str(uuid.uuid1())
             print(job_id)
             dataset_json = json.load(json_data)
