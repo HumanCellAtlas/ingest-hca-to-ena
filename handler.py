@@ -83,11 +83,30 @@ def set_attributes(attributes, entity_json, attribute_type, ignore_fields):
                 else: # module
                     # print('\t%s is a module' % attrib)
                     for key, value in entity_json[attrib].items():
-                        attribute = ET.SubElement(attributes, attribute_type)
-                        attribute_tag = ET.SubElement(attribute, 'TAG')
-                        attribute_tag.text = attrib + '.' + key
-                        attribute_val = ET.SubElement(attribute, 'VALUE')
-                        attribute_val.text = str(value)
+                        # print('\tmodule key: %s' % key)
+                        # print('\tmodule attrib type: %s' % type(value))
+                        if isinstance(value, list):
+                            print('Module field %s is list' % (attrib + '.' + key))
+                            for item in value:
+                                if isinstance(item, dict):
+                                    attribute = ET.SubElement(attributes, attribute_type)
+                                    attribute_tag = ET.SubElement(attribute, 'TAG')
+                                    attribute_tag.text = attrib + '.' + key
+                                    attribute_val = ET.SubElement(attribute, 'VALUE')
+                                    attribute_val.text = str(item['text'])
+                                else:
+                                    attribute = ET.SubElement(attributes, attribute_type)
+                                    attribute_tag = ET.SubElement(attribute, 'TAG')
+                                    attribute_tag.text = attrib + '.' + key
+                                    attribute_val = ET.SubElement(attribute, 'VALUE')
+                                    attribute_val.text = str(item)
+                        else:
+                            print('Module field %s is %s' % (attrib + '.' + key, type(value)))
+                            attribute = ET.SubElement(attributes, attribute_type)
+                            attribute_tag = ET.SubElement(attribute, 'TAG')
+                            attribute_tag.text = attrib + '.' + key
+                            attribute_val = ET.SubElement(attribute, 'VALUE')
+                            attribute_val.text = str(value)
             else:
                 # print('\t%s is not list' % attrib)
                 attribute = ET.SubElement(attributes, attribute_type)
@@ -147,6 +166,7 @@ def _add_experiment_xml(experiment_set_element, process_json, ingest_json, other
     instrument_model_element = ET.SubElement(illumina_element, 'INSTRUMENT_MODEL')
     # TODO: library strategy = "RNA-seq" is fine for now, suggest adding scRNA-seq to enum for this value
     library_strategy_element.text = "RNA-Seq"
+    # TODO: library source = "TRANSCRIPTOMIC SINGLE CELL" is fine hard-coded for now
     library_source_element.text = "TRANSCRIPTOMIC SINGLE CELL"
     # library selection: "RANDOM PCR" if primer=random, "PolyA" if primer=poly-dT, "unspecified" if primer is blank
     for p in other_process_json:
@@ -165,7 +185,11 @@ def _add_experiment_xml(experiment_set_element, process_json, ingest_json, other
             else:
                 print("Didn't find primer or input molecule field. Setting to unspecified.")
                 library_selection_element.text = "unspecified"
-    instrument_model_element.text = process_json['instrument_manufacturer_model']['text']
+    # TODO: The following is hard-coded to match the INSTRUMENT_MODEL enum in ENA
+    if process_json['instrument_manufacturer_model']['text'] == 'Illumina Hiseq X 10':
+        instrument_model_element.text = 'HiSeq X Ten'
+    else:
+        instrument_model_element.text = process_json['instrument_manufacturer_model']['text']
     if 'process_core' in process_json:
         process_core = process_json['process_core']
         if 'process_id' in process_core:
