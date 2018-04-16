@@ -17,9 +17,14 @@ mkdir -p $F2B_FILE_DIR/output
 
 function concat_subgroup {
     file_name=$F2B_FILE_DIR/output/$F2B_FILE_SET$(echo _)$pattern$(echo _)$1_001.$F2B_FILE_EXT
-    ls $F2B_FILE_DIR/$F2B_FILE_SET*$pattern*$1*.$F2B_FILE_EXT |\
-	xargs cat >> $file_name
-    echo "Output written in [$file_name]."
+    if [ -z "$(command -v pv)" ]; then
+	ls $F2B_FILE_DIR/$F2B_FILE_SET*$pattern*$1*.$F2B_FILE_EXT |\
+	    xargs cat >> $file_name && echo "Output written in [$file_name]."
+    else
+	ls $F2B_FILE_DIR/$F2B_FILE_SET*$pattern*$1*.$F2B_FILE_EXT |\
+	    xargs pv |\
+	    cat >> $file_name && echo "Output written in [$file_name]."
+    fi
 }
 
 for pattern in $@
