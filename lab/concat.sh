@@ -12,7 +12,13 @@ fi
 
 mkdir -p output
 
+function concat_subgroup {
+    ls test-files/$F2B_FILE_SET*$pattern*$1*.txt | xargs cat >> output/$F2B_FILE_SET$(echo _)$pattern$(echo _)$1_001.txt
+}
+
 for pattern in $@
 do
-    ls test-files/$F2B_FILE_SET*$pattern*I1*.txt | xargs cat >> output/$F2B_FILE_SET$(echo _)$pattern$(echo _)I1_001.txt
+    concat_subgroup I1
+    concat_subgroup R1
+    concat_subgroup R2
 done
