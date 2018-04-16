@@ -1,8 +1,0 @@
-MantonBM2_HiSeq_1_S9_L005_I1_001.txt
-MantonBM2_HiSeq_2_S10_L005_I1_001.txt
-MantonBM2_HiSeq_3_S11_L005_I1_001.txt
-MantonBM2_HiSeq_4_S12_L005_I1_001.txt
-MantonBM2_HiSeq_5_S13_L005_I1_001.txt
-MantonBM2_HiSeq_6_S14_L005_I1_001.txt
-MantonBM2_HiSeq_7_S15_L005_I1_001.txt
-MantonBM2_HiSeq_8_S16_L005_I1_001.txt
