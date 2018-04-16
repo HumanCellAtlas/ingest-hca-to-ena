@@ -13,7 +13,7 @@ fi
 mkdir -p output
 
 function concat_subgroup {
-    ls test-files/$F2B_FILE_SET*$pattern*$1*.txt | xargs cat >> output/$F2B_FILE_SET$(echo _)$pattern$(echo _)$1_001.txt
+    ls test-files/$F2B_FILE_SET*$pattern*$1*.fastq.gz | xargs cat >> output/$F2B_FILE_SET$(echo _)$pattern$(echo _)$1_001.fastq.gz
 }
 
 for pattern in $@
